@@ -1,0 +1,4 @@
+int	string	int	int	int	int	int	int	int	int	int	string	string									
+SkillID	名称	是否必须释放	IsBuff	CastCondition	激活条件	EffectType	EffectValue	EffectValue2	SpecifyTarget	SpecifyTarget2	Des	D更多介绍									
+SkillID	SkillName	IsMustCast	IsBuff	CastCondition	ActiveCondition	EffectType	EffectValue	EffectValue2	SpecifyTarget	SpecifyTarget2	Des	DesMore									
+1	神技	1	0	1	2	34	4	5	1	1	垃圾										

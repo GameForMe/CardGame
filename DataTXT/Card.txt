@@ -1,0 +1,4 @@
+int	string	int	int	int	int	int	int	int	string	string	string	
+CardID	CardName	PosType	CardType	所属派系	消耗金钱	消耗战力	积分	扩展	出场技能	亡语	Des	
+CardID	CardName	PosType	CardType	Race	CostRes	CostPower	Score	Exp	BornSkill	DieSkill	Des	
+1	测试	1	1	1	1	1	1	1	1	1	无	
