@@ -57,7 +57,7 @@ namespace AssetBundles
 		
 		public static string PrepareFileName(string input)
 		{
-			if (Application.platform == RuntimePlatform.O··SXEditor)
+			if (Application.platform == RuntimePlatform.OSXEditor)
 			{
 				return EscapeCharsQuote(input);
 			}
