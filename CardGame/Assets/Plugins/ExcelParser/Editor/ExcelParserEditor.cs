@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Data;
 using Excel;
-using UnityEditor.OSXStandalone;
+//using UnityEditor.OSXStandalone;
 
 
 namespace ExcelParser
@@ -65,8 +65,14 @@ namespace ExcelParser
             string context = File.ReadAllText(excelTxtPath);
 
 
-//			string fileName = obj.name.ToString();
+            //			string fileName = obj.name.ToString();
+            //IOS 是/  但是win 是\
+#if UNITY_EDITOR_WIN
+            int lastSlashesIndex = excelTxtPath.LastIndexOf(@"\");
+#else
             int lastSlashesIndex = excelTxtPath.LastIndexOf('/');
+#endif
+
             int lastPointIndex = excelTxtPath.LastIndexOf('.');
             string fileName = excelTxtPath.Substring(lastSlashesIndex + 1, lastPointIndex - lastSlashesIndex - 1);
 
@@ -299,7 +305,7 @@ namespace ExcelParser
             }
         }
 
-        #endregion
+#endregion
 
 
         [MenuItem("Tools/ExcelParser/ExcleToTxtAll_NoCode")]
