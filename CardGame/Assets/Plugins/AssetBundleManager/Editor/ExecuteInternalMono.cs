@@ -45,7 +45,11 @@ namespace AssetBundles
 	
 	class ExecuteInternalMono
 	{
+		#if UNITY_EDITOR_WIN
 		private static readonly Regex UnsafeCharsWindows = new Regex("[^A-Za-z0-9\\_\\-\\.\\:\\,\\/\\@\\\\]");
+	#else
+		private static readonly Regex UnsafeCharsWindows = new Regex("[^A-Za-z0-9\\\\-\\.\\:\\,\\/\\@\\\\]");
+		#endif
 		private static readonly Regex UnescapeableChars = new Regex("[\\x00-\\x08\\x10-\\x1a\\x1c-\\x1f\\x7f\\xff]");
 		private static readonly Regex Quotes = new Regex("\"");
 		
@@ -53,7 +57,7 @@ namespace AssetBundles
 		
 		public static string PrepareFileName(string input)
 		{
-			if (Application.platform == RuntimePlatform.OSXEditor)
+			if (Application.platform == RuntimePlatform.O··SXEditor)
 			{
 				return EscapeCharsQuote(input);
 			}
