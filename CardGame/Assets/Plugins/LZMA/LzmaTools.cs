@@ -28,8 +28,12 @@ namespace ZTools
 		/// <param name="zipFileName">Zip file name.</param>
 		/// <param name="outFilePath">Out file path.</param>
 		public static  bool DecompressLzma (string zipfilePath, string zipFileName, string outFilePath)
-		{
-			string destFolderPath = zipfilePath + "/" + zipFileName;
+        {
+            if (!Directory.Exists(zipfilePath))
+            {
+                Directory.CreateDirectory(zipfilePath);
+            }
+            string destFolderPath = zipfilePath + "/" + zipFileName;
 			Debug.Log ("wiil unCompose path = "+ destFolderPath);
 			FileStream compressStream = File.OpenRead(destFolderPath);//new FileStream (destFolderPath, FileMode.Open);//, FileAccess.Read
 			MemoryStream tempStream = new MemoryStream ();
