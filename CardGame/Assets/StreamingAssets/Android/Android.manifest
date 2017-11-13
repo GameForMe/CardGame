@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 3162525858
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: uilogin.unity3d
+      Dependencies: {}
+    Info_1:
+      Name: uiloading.unity3d
+      Dependencies: {}
+    Info_2:
+      Name: uimain.unity3d
+      Dependencies: {}
+    Info_3:
+      Name: battleui
+      Dependencies: {}
