@@ -25,7 +25,7 @@ public class StartSenceManage : MonoBehaviour {
 
 //		GotoMain ();
 		if (LogoSp != null) {
-			Time.timeScale = 0;
+//			Time.timeScale = 0;
  
 			//调用DOmove方法来让图片移动
 			
@@ -37,17 +37,18 @@ public class StartSenceManage : MonoBehaviour {
 				0.5f  
 			);  
 			 
-			Tweener tweener = LogoSp.rectTransform.DOMove(Vector3.zero,1f);
+			Tweener tweener = LogoSp.DOFade(0,1.5f);
 			//设置这个Tween不受Time.scale影响
 			tweener.SetUpdate(true);
 			//设置移动类型
 			tweener.SetEase(Ease.Linear);
-			tweener.onComplete = delegate() {
-				Debug.Log("移动完毕事件");
-			};
-			LogoSp.material.DOFade(0,1f).onComplete = delegate() {
-				Debug.Log("褪色完毕事件");
-			};
+			tweener.OnComplete(EndShowLogo);
+//			tweener.onComplete = delegate() {
+//				Debug.Log("移动完毕事件");
+//			};
+//			LogoSp.material.DOFade(0,1f).onComplete = delegate() {
+//				Debug.Log("褪色完毕事件");
+//			};
 			
 //			TweenAlpha tweenAp = LogoSp.gameObject.AddComponent<TweenAlpha> ();
 //			tweenAp.from = LogoSp.alpha;
@@ -69,7 +70,7 @@ public class StartSenceManage : MonoBehaviour {
 
 	void EndShowLogo()
 	{
-		if (true) {
+		if (false) {
 		
 		}else {
 			GotoMain ();
@@ -83,8 +84,8 @@ public class StartSenceManage : MonoBehaviour {
 	}
 	void GotoMain()
 	{
-//		LoadingController.GetInstance ().GotoOneSence (SenceType.mainSence);
-//		LoadingSet.LoadingSenceName = "main";
+		LoadingController.GetInstance ().GotoOneSence (SenceType.mainSence);
+//		LoadingController.GetInstance ().LoadSenceAsyncDone(); = "main";
 //		Application.LoadLevelAsync("loading");
 		//		Application.LoadLevelAdditiveAsync ("yourScene"); //不删除原场景 情况下  慎用.
 	}
