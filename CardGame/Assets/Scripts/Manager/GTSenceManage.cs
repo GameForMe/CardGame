@@ -459,7 +459,7 @@ public class GTSenceManage :MonoBehaviour
 	/// 添加场景内大loaidng 执行逻辑;
 	/// </summary>
 	/// <typeparam name="T">The 1st type parameter.</typeparam>
-	public T AddLoadingUIToSence<T> (PreCtrlBase.EndLoading endCall,int parma = -1) where T : PreCtrlBase
+	public T AddLoadingUIToSence<T> (PreCtrlBase.EndLoading endCall,params object[] args) where T : PreCtrlBase
 	{
 		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/Loading/Prefabs/LoadingUI");
 
@@ -479,7 +479,7 @@ public class GTSenceManage :MonoBehaviour
 			T precCtrl = diaSrc.gameObject.AddComponent<T> ();
 			precCtrl.loadingUICS = diaSrc;
 			precCtrl.EndLoadCall = endCall;
-			precCtrl.StarLoadData (parma);
+			precCtrl.StarLoadData (args);
 			return  precCtrl;
 		}
 		return null;

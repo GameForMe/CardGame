@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using DG.Tweening;
+using Script_Game.ScenePre;
 
 /// <summary>
 /// Start sence manage.
@@ -82,11 +83,26 @@ public class StartSenceManage : MonoBehaviour {
 
 		Invoke("GotoMain",1.7f);
 	}
+	/// <summary>
+	/// 这里去主界面应该通过资源检测;
+	/// </summary>
 	void GotoMain()
 	{
-		LoadingController.GetInstance ().GotoOneSence (SenceType.mainSence);
+		//添加loading
+		GamePreCtrl preCtrl = GTSenceManage.Instance().AddLoadingUIToSence<GamePreCtrl>(EndDealOp_ScenePreCtrl);
+//		LoadingController.GetInstance ().GotoOneSence (SenceType.mainSence);
+		
 //		LoadingController.GetInstance ().LoadSenceAsyncDone(); = "main";
 //		Application.LoadLevelAsync("loading");
 		//		Application.LoadLevelAdditiveAsync ("yourScene"); //不删除原场景 情况下  慎用.
 	}
+	
+	void EndDealOp_ScenePreCtrl()
+	{
+		Debuger.Log ("zys -----  1 前置逻辑准备好了");
+		
+//		GTSenceManage.Instance ().PlanLogonSence ();
+		
+	}
+	
 }

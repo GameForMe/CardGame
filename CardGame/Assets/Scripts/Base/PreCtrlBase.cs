@@ -33,7 +33,7 @@ public class PreCtrlBase :MonoBehaviour
 	/// Stars the load data.
 	/// 开始加载前置数据;
 	/// </summary>
-	public virtual void StarLoadData(int parma){
+	public virtual void StarLoadData(params object[] args){
 		//不注视掉 有个 还没结束就执行回掉 的bug
 //		if(EndLoadCall != null)
 //		{

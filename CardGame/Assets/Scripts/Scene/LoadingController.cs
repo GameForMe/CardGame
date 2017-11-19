@@ -183,7 +183,7 @@ public class LoadingController
 	/// </summary>
 	void ChecnIsLoadingEnd()
 	{
-		if(isSceneReady && isCtrlReady)
+		if(isSceneReady && isCtrlReady) 
 		{
 			isLoading = false;
 			if (senceLoadAsync != null) {//让场景继续;

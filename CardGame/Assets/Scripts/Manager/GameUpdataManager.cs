@@ -19,7 +19,7 @@ public class GameUpdataManager : PreCtrlBase
 	{
 	}
 
-	public override void StarLoadData(int parma){
+	public override void StarLoadData(params object[] values){
 		//不注视掉 有个 还没结束就执行回掉 的bug
 		//		if(EndLoadCall != null)
 		//		{
