@@ -487,14 +487,6 @@ public class GTSenceManage :MonoBehaviour
 
 	#endregion
 
-	/// <summary>
-	/// Deals the user interface on die or suc leave.
-	/// 处理 玩家 死亡或 成功逃脱时 , 相关
-	/// </summary>
-	public void DealUIOnDieOrSucLeave ()
-	{
-		GTSenceManage.Instance ().CloseAllBorderUI_ForDie ();  // 玩家 死亡或 成功逃脱时 , 关闭的相关 ui;
-	
-	}
+
 
 }

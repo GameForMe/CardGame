@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using DG.Tweening;
 using Script_Game.ScenePre;
+using  AssetBundles;
 
 /// <summary>
 /// Start sence manage.
@@ -17,7 +18,8 @@ public class StartSenceManage : MonoBehaviour {
 	void Awake()
 	{
 		GameInit.Instance ().FirstStartGame ();
-	
+		StartCoroutine (LoadMainiFast ());
+		return;
 		Transform find = transform.Find ("UIRoot/Logo");
 		if(find != null)
 		{
@@ -44,25 +46,42 @@ public class StartSenceManage : MonoBehaviour {
 			//设置移动类型
 			tweener.SetEase(Ease.Linear);
 			tweener.OnComplete(EndShowLogo);
-//			tweener.onComplete = delegate() {
-//				Debug.Log("移动完毕事件");
-//			};
-//			LogoSp.material.DOFade(0,1f).onComplete = delegate() {
-//				Debug.Log("褪色完毕事件");
-//			};
-			
-//			TweenAlpha tweenAp = LogoSp.gameObject.AddComponent<TweenAlpha> ();
-//			tweenAp.from = LogoSp.alpha;
-//			tweenAp.to = 1;
-//			tweenAp.delay = 0.4f;
-//			tweenAp.duration = 0.7f;
-//			tweenAp.eventReceiver = gameObject;
-//			tweenAp.callWhenFinished = "EndShowLogo"; 
+
 			EndShowLogo();
 		} else {
 			GotoMain ();
 		}
 	}
+	IEnumerator LoadMainiFast ()
+	{
+		Debug.LogError ("----zys----  start load mainfalst");
+		yield  return StartCoroutine(Initialize() );
+
+		Debug.LogError ("----zys----  back to laod");
+	}
+
+	protected IEnumerator Initialize()
+	{
+		// 
+		AssetBundleManager.SetSourceAssetBundleDirectory();
+
+
+		Debug.LogError("----zys----   StartCoroutine");
+		var request = AssetBundleManager.Initialize();
+		if (request != null)
+			yield return StartCoroutine(request);
+
+		Debug.LogError("----zys----  end load mainfalst");
+		
+		string m_DownloadingError;
+		LoadedAssetBundle bundle = AssetBundleManager.GetLoadedAssetBundle("map_" , out m_DownloadingError);
+		if (bundle != null)
+		{
+			
+		}
+		
+	}
+
 	// Use this for initialization
 	void Start () {
 

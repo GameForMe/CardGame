@@ -9,32 +9,36 @@ using System.Collections.Generic;
 /// 获取角色信息，
 /// 
 /// </summary>
-public class MainUIPreCtrl  :PreCtrlBase
+public class MainUIPreCtrl : PreCtrlBase
 {
-	
-	void Awake ()
-	{
-		
-	}
+    void Awake()
+    {
+    }
 
-	public override void StarLoadData(params object[] args){
-      
+    private GameUpdataManager gmUpdataMgr = null;
 
-		//新增   排行榜获取
-//		SendGetRank ();
+    public override void StarLoadData(params object[] args)
+    {
+        if (gmUpdataMgr == null)
+        {
+            gmUpdataMgr = gameObject.AddComponent<GameUpdataManager>();
+            gmUpdataMgr.EndLoadCall = EndCheckAndLoadRes;
+        }
+    }
 
+    /// <summary>
+    /// 走完资源更新流程;
+    /// </summary>
+    void EndCheckAndLoadRes()
+    {
+        EndLoadSceneObj();
+    }
 
-
-//		loadingUICS.SetProgress (10);
-
-//		if (EndLoadCall != null) {
-//			EndLoadCall ();
-//		} else {
-//			Debuger.LogError (" main ui pre no call back");
-//		}
-	}
-
-
-
+    public override void EndLoadSceneObj()
+    {
+        if (EndLoadCall != null)
+        {
+            EndLoadCall();
+        }
+    }
 }
-

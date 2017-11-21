@@ -116,7 +116,7 @@ public class LoadingController
 		curSence = type;
 		if (curSence == SenceType.mainSence && (preSence == SenceType.startSence || preSence == null)) {
 			//第一次的话 ;
-			loadingUI = AddLoadingUI <GameUpdataManager>(EndDealOp_ScenePreCtrl);
+//			loadingUI = AddLoadingUI <GameUpdataManager>(EndDealOp_ScenePreCtrl);
 		} else {//暂时没有区分战斗还是主界面的前置;
 			if (curSence == SenceType.mainSence) {
 //				loadingUI = AddLoadingUI<PreCtrlMainScene>(EndDealOp_ScenePreCtrl);	
