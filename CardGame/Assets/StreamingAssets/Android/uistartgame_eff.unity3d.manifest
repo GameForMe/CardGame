@@ -1,29 +1,21 @@
 ManifestFileVersion: 0
-CRC: 3926423236
+CRC: 993692447
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d8666a883e16bff2b834da496e3a876e
+    Hash: b1448ba92c19b8cee6bc9265ba8b1a9b
   TypeTreeHash:
     serializedVersion: 2
-    Hash: dd9a3c16eb3959ff34710f7ada4c7ec9
+    Hash: ea88d8678dc50ab9dcc40a6fcae7441a
 HashAppended: 0
 ClassTypes:
 - Class: 1
   Script: {instanceID: 0}
-- Class: 21
-  Script: {instanceID: 0}
 - Class: 28
-  Script: {instanceID: 0}
-- Class: 48
   Script: {instanceID: 0}
 - Class: 114
   Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-- Class: 114
-  Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 115
-  Script: {instanceID: 0}
-- Class: 128
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
@@ -34,5 +26,5 @@ ClassTypes:
 - Class: 225
   Script: {instanceID: 0}
 Assets:
-- Assets/Bundles/UI/UILoading.prefab
+- Assets/Bundles/UI/UIStartGame_Eff.prefab
 Dependencies: []

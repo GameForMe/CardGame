@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3926423236
+CRC: 2453529593
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d8666a883e16bff2b834da496e3a876e
+    Hash: 826f3fc2f2da7342e4dff67127d16425
   TypeTreeHash:
     serializedVersion: 2
-    Hash: dd9a3c16eb3959ff34710f7ada4c7ec9
+    Hash: 95df37c2bd4f5174bc4d940e2252f199
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -17,6 +17,8 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
   Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
@@ -34,5 +36,6 @@ ClassTypes:
 - Class: 225
   Script: {instanceID: 0}
 Assets:
-- Assets/Bundles/UI/UILoading.prefab
-Dependencies: []
+- Assets/Bundles/UI/UIWar.prefab
+Dependencies:
+- /Users/zys/U3DWork/GitWork/CardGame.git/trunk/CardGame/AssetBundles/Android/battleui
