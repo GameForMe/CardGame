@@ -47,7 +47,7 @@ public class ModelManager  {
 //		PlayerModel.Instance ().transform.parent = transform;
 //		GameEnterModel.Instance ().transform.parent = transform;
 //		WarModel.Instance ().transform.parent = transform;
-//		AddModel<GameEnterModel>(Model_Type.Model_Logon);
+		AddModel<GameEnterModel>(Model_Type.Model_Logon);
 //		AddModel<PlayerModel>(Model_Type.Model_Player);
 //		AddModel<BattleModel>(Model_Type.Model_Battle);
 //		AddModel<GameInitModel>(Model_Type.Model_GameInit);

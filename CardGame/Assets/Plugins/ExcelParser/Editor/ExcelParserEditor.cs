@@ -166,7 +166,7 @@ namespace ExcelParser
         /// <param name="titles">Titles.</param>
         public static void GenerateBeanClass(string fileName, List<TitleData> titles)
         {
-            string targetPath = Application.dataPath + "/Scripts/Data/DataBeans/";
+            string targetPath = Application.dataPath + "/Script_Game/Data/DataBeans/";
             string file = targetPath + fileName + "Data.cs";
             if (!Directory.Exists(targetPath))
             {
@@ -217,7 +217,7 @@ namespace ExcelParser
         /// <param name="fileName">File name.</param>
         public static void GenerateMgrClass(string fileName)
         {
-            string targetPath = Application.dataPath + "/Scripts/Data/DataMgr/";
+            string targetPath = Application.dataPath + "/Script_Game/Data/DataMgr/";
             string file = targetPath + fileName + "SetMgr.cs";
 
             if (!Directory.Exists(targetPath))
@@ -256,7 +256,7 @@ namespace ExcelParser
         /// </summary>
         static void ClearOldDataMgrInit()
         {
-            string targetPath = Application.dataPath + "/Scripts/Data/";
+            string targetPath = Application.dataPath + "/Script_Game/Data/";
             string file = targetPath + "DataSetMgr.cs";
             if (!Directory.Exists(targetPath))
             {
@@ -272,7 +272,7 @@ namespace ExcelParser
 
         static void GenerateDataMgrCs(string fileName)
         {
-            string targetPath = Application.dataPath + "/Scripts/Data/";
+            string targetPath = Application.dataPath + "/Script_Game/Data/";
             string filePath = targetPath + "DataSetMgr.cs";
             if (!Directory.Exists(targetPath))
             {

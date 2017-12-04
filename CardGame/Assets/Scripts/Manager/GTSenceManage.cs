@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using AssetBundles;
 
 
 /// <summary>
@@ -189,28 +189,38 @@ public class GTSenceManage :MonoBehaviour
 	#region 登录场景控制;
 
 	/// <summary>
-	/// Plans the logon sence.
-	/// 进入登录界面的前置准备;
-	/// </summary>
-	public void PlanLogonSence ()
-	{
-		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/Logon/Prefabs/LogonUI");
-	}
-
-	/// <summary>
 	/// Gotos the logon sence.
 	/// 进入登录场景;
 	/// </summary>
 	public void GotoLogonSence ()
 	{
 		curSenceType = UISenceType.logonUISence;
-		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/Logon/Prefabs/LogonUI");
-
-		if (OriginalObj != null) {
-
-//			LogonUI diaSrc = InstantiateObjFun.AddOneObjToParent<LogonUI> (OriginalObj, RootTransform);		
-//			curSence = diaSrc;
+		string m_DownloadingError;
+		LoadedAssetBundle bundle =
+			AssetBundleManager.GetLoadedAssetBundle("uilogin.unity3d", out m_DownloadingError);
+		if (bundle != null)
+		{
+			AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("UILogin");
+			if (request1 != null)
+			{
+				GameObject uiPre = request1.asset as GameObject;
+				GameObject curUI = GameObject.Instantiate(uiPre);
+				curUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
+				curUI.transform.localPosition = uiPre.transform.localPosition;
+				curUI.transform.localScale = uiPre.transform.localScale;
+                
+				curUI.AddComponent<LaunchUI>();
+//				Destroy(curUI.GetComponent("qiemove"));//删除绑定脚本  
+			}
 		}
+		
+//		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/Logon/Prefabs/LogonUI");
+//
+//		if (OriginalObj != null) {
+//
+////			LogonUI diaSrc = InstantiateObjFun.AddOneObjToParent<LogonUI> (OriginalObj, RootTransform);		
+////			curSence = diaSrc;
+//		}
 	}
 
 	#endregion
@@ -221,16 +231,17 @@ public class GTSenceManage :MonoBehaviour
 	/// <summary>
 	/// Gotos the main user interface sence.
 	/// 开始进入主ui场景;
+	/// 上一个场景需要关闭。--- 关闭需要删除显示 清除ab 缓存;
+	/// 
 	/// </summary>
-	public void GotoMainUISence (bool isRegist)
+	public void GotoMainUISence ()
 	{
 		if (curSence != null) {
 			curSence.CloseUI ();
 		}
-//		curSenceType = UISenceType.loadingUISence;
-//		MainUIPreCtrl mPreCtrl = AddLoadingUIToSence<MainUIPreCtrl> (StartOpenMainUISence);
-//		mPreCtrl.isRegist = isRegist;
-//		RootTrans.IsOpenListener = true;
+		curSenceType = UISenceType.loadingUISence;
+		PreCtrlMainScene mPreCtrl = AddLoadingUIToSence<PreCtrlMainScene> (StartOpenMainUISence);
+	
 	}
 
 	/// <summary>
@@ -243,13 +254,31 @@ public class GTSenceManage :MonoBehaviour
 			curSence.CloseUI ();
 		}
 		curSenceType = UISenceType.mainUISence;
-		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/MainUI/Prefabs/MainNewUIPanel");
-
-		if (OriginalObj != null) {
-//			MainNewUIView diaSrc = InstantiateObjFun.AddOneObjToParent<MainNewUIView> (OriginalObj, RootTransform);
-////			MainUIView diaSrc = InstantiateObjFun.AddOneObjToParent<MainUIView> (OriginalObj, RootTransform);
-//			curSence = diaSrc;
+		string m_DownloadingError;
+		LoadedAssetBundle bundle =
+			AssetBundleManager.GetLoadedAssetBundle("uimain.unity3d", out m_DownloadingError);
+		if (bundle != null)
+		{
+			AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("UIMain");
+			if (request1 != null)
+			{
+				GameObject uiPre = request1.asset as GameObject;
+				GameObject curUI = GameObject.Instantiate(uiPre);
+				curUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
+				curUI.transform.localPosition = uiPre.transform.localPosition;
+				curUI.transform.localScale = uiPre.transform.localScale;
+                
+				curUI.AddComponent<MainUI>();
+			}
 		}
+		
+//		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/MainUI/Prefabs/MainNewUIPanel");
+//
+//		if (OriginalObj != null) {
+////			MainNewUIView diaSrc = InstantiateObjFun.AddOneObjToParent<MainNewUIView> (OriginalObj, RootTransform);
+//////			MainUIView diaSrc = InstantiateObjFun.AddOneObjToParent<MainUIView> (OriginalObj, RootTransform);
+////			curSence = diaSrc;
+//		}
 	}
 
 	#endregion
@@ -276,10 +305,6 @@ public class GTSenceManage :MonoBehaviour
 
 		AddBattleUIBack ();
 		AddBattleUI ();
-		AddBattleVirtualStick (endCallUI);
-		AddBattleQTE ();
-		AddKillerPosTipUI ();
-		AddOtherPlayerTipUI ();
 	}
 	/// <summary>
 	/// Adds the battle user interface back.
@@ -310,82 +335,7 @@ public class GTSenceManage :MonoBehaviour
 //			curSence = diaSrc;
 		}
 	}
-	/// <summary>
-	/// Adds the battle virtual stick.
-	/// 添加虚拟摇杆;
-	/// </summary>
-	/// <param name="moveCall">Move call.</param>
-	/// <param name="stopCall">Stop call.</param>
-	/// <param name="attackCall">Attack call.</param>
-	void AddBattleVirtualStick(EndAddUI endCallUI)
-	{
-		GameObject VirtualStickObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("VirtualStick/VirtualStickCat");
 
-		if (VirtualStickObj != null) {
-
-			BaseBorderUI diaSrc = InstantiateObjFun.AddOneObjToParent<BaseBorderUI> (VirtualStickObj,RootTransform );
-			Transform find = diaSrc.transform.Find ("Ui_mask");
-			if(find != null)
-			{
-//				VirtualStickCat stick = find.GetComponent<VirtualStickCat> ();
-//				endCallUI (stick);
-//				stick.m_SkillIds.Clear ();
-//				stick.m_SkillIds.Add (1);
-//				stick.m_SkillIds.Add (3);
-//				stick.m_SkillIds.Add (2);
-
-
-
-			}
-			borderUIList.Add (diaSrc);
-			borderUIList_ForDie.Add (diaSrc); // 
-		}
-	}
-	/// <summary>
-	/// Adds the battle QT.
-	/// 添加QTE 显示逻辑;
-	/// </summary>
-	void AddBattleQTE()
-	{
-		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/WarUI/Prefabs/QTE_total");
-
-		if (OriginalObj != null) {
-
-//			Panel_QTEUI diaSrc = InstantiateObjFun.AddOneObjToParent<Panel_QTEUI> (OriginalObj, RootTransform );	
-//			borderUIList.Add (diaSrc);
-//			borderUIList_ForDie.Add (diaSrc); // 
-		}
-	}
-	/// <summary>
-	/// Adds the killer position tip U.
-	/// 添加屠夫接近的恐惧提示;
-	/// </summary>
-	void AddKillerPosTipUI()
-	{
-		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/WarUI/Prefabs/Panel_Art_Warning");
-
-		if (OriginalObj != null) {
-
-//			Panel_KillerPosTipUI diaSrc = InstantiateObjFun.AddOneObjToParent<Panel_KillerPosTipUI> (OriginalObj, RootTransform);	
-//			borderUIList.Add (diaSrc);
-//			borderUIList_ForDie.Add (diaSrc); // 
-		}
-	}
-	/// <summary>
-	/// Adds the other player tip U.
-	/// 添加其他玩家位置信息;
-	/// </summary>
-	void AddOtherPlayerTipUI()
-	{
-		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/WarUI/Prefabs/Panel_OtherPlTip");
-
-		if (OriginalObj != null) {
-
-//			Panel_OtherPlTip diaSrc = InstantiateObjFun.AddOneObjToParent<Panel_OtherPlTip> (OriginalObj, RootTransform);	
-//			borderUIList.Add (diaSrc);
-//			borderUIList_ForDie.Add (diaSrc); // 
-		}
-	}
 	#endregion
 
 
@@ -461,27 +411,57 @@ public class GTSenceManage :MonoBehaviour
 	/// <typeparam name="T">The 1st type parameter.</typeparam>
 	public T AddLoadingUIToSence<T> (PreCtrlBase.EndLoading endCall,params object[] args) where T : PreCtrlBase
 	{
-		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/Loading/Prefabs/LoadingUI");
-
-		if (OriginalObj != null) {
-			curSenceType = UISenceType.loadingUISence;
-			if(LoadingDataUICS != null )
+		string m_DownloadingError;
+		LoadedAssetBundle bundle = AssetBundleManager.GetLoadedAssetBundle("uiloading.unity3d", out m_DownloadingError);
+		if (bundle != null)
+		{
+//			GameObject uiloading = null;
+			AssetBundleRequest request = bundle.m_AssetBundle.LoadAssetAsync("uiloading");
+			if (request != null)
 			{
-				isLoadingData.Clear ();
-				LoadingDataUICS.CloseUI ();
-			}
-			if (curSence != null) {
-				curSence.CloseUI ();
-			}
-			LoadingUI diaSrc = InstantiateObjFun.AddOneObjToParent<LoadingUI> (OriginalObj, RootTransform);	
-			curSence = diaSrc;
+				GameObject OriginalObj = request.asset as GameObject;
+//				uiloading = GameObject.Instantiate(uiloadingPre);
+				
+				curSenceType = UISenceType.loadingUISence;
+				if(LoadingDataUICS != null )
+				{
+					isLoadingData.Clear ();
+					LoadingDataUICS.CloseUI ();
+				}
+				if (curSence != null) {
+					curSence.CloseUI ();
+				}
+				LoadingUI diaSrc = InstantiateObjFun.AddOneObjToParent<LoadingUI> (OriginalObj, GameInit.Instance().StaticCanvas.transform);	
+				curSence = diaSrc;
 
-			T precCtrl = diaSrc.gameObject.AddComponent<T> ();
-			precCtrl.loadingUICS = diaSrc;
-			precCtrl.EndLoadCall = endCall;
-			precCtrl.StarLoadData (args);
-			return  precCtrl;
+				T precCtrl = diaSrc.gameObject.AddComponent<T> ();
+				precCtrl.loadingUICS = diaSrc;
+				precCtrl.EndLoadCall = endCall;
+				precCtrl.StarLoadData (args);
+				return  precCtrl;
+			}
 		}
+//		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/Loading/Prefabs/LoadingUI");
+//
+//		if (OriginalObj != null) {
+//			curSenceType = UISenceType.loadingUISence;
+//			if(LoadingDataUICS != null )
+//			{
+//				isLoadingData.Clear ();
+//				LoadingDataUICS.CloseUI ();
+//			}
+//			if (curSence != null) {
+//				curSence.CloseUI ();
+//			}
+//			LoadingUI diaSrc = InstantiateObjFun.AddOneObjToParent<LoadingUI> (OriginalObj, RootTransform);	
+//			curSence = diaSrc;
+//
+//			T precCtrl = diaSrc.gameObject.AddComponent<T> ();
+//			precCtrl.loadingUICS = diaSrc;
+//			precCtrl.EndLoadCall = endCall;
+//			precCtrl.StarLoadData (args);
+//			return  precCtrl;
+//		}
 		return null;
 	}
 

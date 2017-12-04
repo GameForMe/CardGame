@@ -15,15 +15,15 @@ public class MainUIPreCtrl : PreCtrlBase
     {
     }
 
-    private GameUpdataManager gmUpdataMgr = null;
+//    private GameUpdataManagerCp gmUpdataMgr = null;
 
     public override void StarLoadData(params object[] args)
     {
-        if (gmUpdataMgr == null)
-        {
-            gmUpdataMgr = gameObject.AddComponent<GameUpdataManager>();
-            gmUpdataMgr.EndLoadCall = EndCheckAndLoadRes;
-        }
+//        if (gmUpdataMgr == null)
+//        {
+//            gmUpdataMgr = gameObject.AddComponent<GameUpdataManagerCp>();
+//            gmUpdataMgr.EndLoadCall = EndCheckAndLoadRes;
+//        }
     }
 
     /// <summary>

@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3238925606
+CRC: 3382503837
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -22,8 +22,5 @@ AssetBundleManifest:
       Dependencies:
         Dependency_0: battleui
     Info_6:
-      Name: uistartgame_eff.unity3d
-      Dependencies: {}
-    Info_7:
       Name: baseui.unity3d
       Dependencies: {}

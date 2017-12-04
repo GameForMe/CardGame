@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1580281204
+CRC: 685857093
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d30103e74a481bdcac2d2df829f2ff44
+    Hash: 5f7d5aa8bf04723cb17638fa30e0cc24
   TypeTreeHash:
     serializedVersion: 2
     Hash: ea88d8678dc50ab9dcc40a6fcae7441a
@@ -27,4 +27,5 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/Bundles/UI/UIStartGame.prefab
+- Assets/Bundles/UI/UIStartGame_Eff.prefab
 Dependencies: []

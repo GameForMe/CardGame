@@ -57,7 +57,7 @@ public class GameSet
 	public delegate void EndWaiteSometion();
 	public delegate void EndShowTween(GameObject obj);
 	public delegate void ShowMsgEndCall(GameObject obj);
-	public delegate void EndLoading();
+//	public delegate void EndLoading();
 	public delegate void EndLoadingWar(bool bOK);
 
 

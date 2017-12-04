@@ -93,7 +93,7 @@ namespace AssetBundles
 		}
 	
 		// AssetBundleManifest object which can be used to load the dependecies and check suitable assetBundle variants.
-		public static AssetBundleManifest AssetBundleManifestObject
+		public static AssetBundleManifest AssetBundleManifestObject	
 		{
 			set {
 				Debug.LogError ("zys set mainfest  with " + value.name);

@@ -1,127 +1,118 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
-using DG.Tweening;
-using Script_Game.ScenePre;
-using  AssetBundles;
+using AssetBundles;
 
 /// <summary>
 /// Start sence manage.
+/// 获取内置的显示根;
+/// 获取loading 的资源;
 /// 闪屏后 连接服务器;
 /// 监测资源更新;
 /// 
 /// </summary>
-public class StartSenceManage : MonoBehaviour {
+public class StartSenceManage : MonoBehaviour
+{
+
+    void Awake()
+    {
+        GameInit.Instance().FirstStartGame();
+        StartCoroutine(LoadMainiFast());
+        return;
+       
+    }
+
+    IEnumerator LoadMainiFast()
+    {
+        Debug.LogError("----zys----  start load mainfalst");
+        yield return StartCoroutine(Initialize());
+
+        Debug.LogError("----zys----  back to laod");
+
+        yield return StartCoroutine(LoadRootUI());
+    }
+
+    protected IEnumerator Initialize()
+    {
+        // 
+        AssetBundleManager.SetSourceAssetBundleDirectory();
 
 
-	Image LogoSp;
-	void Awake()
-	{
-		GameInit.Instance ().FirstStartGame ();
-		StartCoroutine (LoadMainiFast ());
-		return;
-		Transform find = transform.Find ("UIRoot/Logo");
-		if(find != null)
-		{
-			LogoSp = find.GetComponent<Image>();
-		}
+        Debug.LogError("----zys----   StartCoroutine");
+        var request = AssetBundleManager.Initialize();
+        if (request != null)
+            yield return StartCoroutine(request);
 
-//		GotoMain ();
-		if (LogoSp != null) {
-//			Time.timeScale = 0;
- 
-			//调用DOmove方法来让图片移动
-			
-			DOTween.ToAlpha  
-			(  
-				()  => LogoSp.color,  
-				(c) => LogoSp.color = c,  
-				0,   
-				0.5f  
-			);  
-			 
-			Tweener tweener = LogoSp.DOFade(0,1.5f);
-			//设置这个Tween不受Time.scale影响
-			tweener.SetUpdate(true);
-			//设置移动类型
-			tweener.SetEase(Ease.Linear);
-			tweener.OnComplete(EndShowLogo);
+        Debug.LogError("----zys----  end load mainfalst");
+    }
 
-			EndShowLogo();
-		} else {
-			GotoMain ();
-		}
-	}
-	IEnumerator LoadMainiFast ()
-	{
-		Debug.LogError ("----zys----  start load mainfalst");
-		yield  return StartCoroutine(Initialize() );
+    protected IEnumerator LoadRootUI()
+    {
+        AssetBundleLoadOperationFull request_baseui = AssetBundleManager.LoadAssetBundleAsync("baseui.unity3d");
+        if (request_baseui == null)
+            yield break;
+        yield return StartCoroutine(request_baseui);
 
-		Debug.LogError ("----zys----  back to laod");
-	}
+        string m_DownloadingError;
+        LoadedAssetBundle bundle = AssetBundleManager.GetLoadedAssetBundle("baseui.unity3d", out m_DownloadingError);
+        if (bundle != null)
+        {
+            GameObject staticCanvas = null;
+            GameObject effCanvas = null;
+            AssetBundleRequest request2 = bundle.m_AssetBundle.LoadAssetAsync("StaticCanvas");
+            if (request2 != null)
+            {
+                GameObject staticCanvasPre = request2.asset as GameObject;
+                staticCanvas = GameObject.Instantiate(staticCanvasPre);
+            }
+            AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("EffCanvas");
+            if (request1 != null)
+            {
+                GameObject effCanvasPre = request1.asset as GameObject;
+                effCanvas = GameObject.Instantiate(effCanvasPre);
+            }
+            GameInit.Instance().SetInitRootUI(staticCanvas, effCanvas);
+            yield return StartCoroutine(LoadLoadingUI());
+            yield return StartCoroutine(LoadStartSenceUI());
+        }
+    }
 
-	protected IEnumerator Initialize()
-	{
-		// 
-		AssetBundleManager.SetSourceAssetBundleDirectory();
+    protected IEnumerator LoadLoadingUI()
+    {
+        AssetBundleLoadOperationFull request_uiloading = AssetBundleManager.LoadAssetBundleAsync("uiloading.unity3d");
+        if (request_uiloading == null)
+            yield break;
+        yield return StartCoroutine(request_uiloading);
+    }
+    protected IEnumerator LoadStartSenceUI()
+    {
+        AssetBundleLoadOperationFull request_StartGame = AssetBundleManager.LoadAssetBundleAsync("UIStartGame.unity3d");
+        if (request_StartGame == null)
+            yield break;
+        yield return StartCoroutine(request_StartGame);
+        string m_DownloadingError;
+        LoadedAssetBundle bundle =
+            AssetBundleManager.GetLoadedAssetBundle("UIStartGame.unity3d", out m_DownloadingError);
+        if (bundle != null)
+        {
+            AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("UIStartGame");
+            if (request1 != null)
+            {
+                GameObject uiPre = request1.asset as GameObject;
+                GameObject startUI = GameObject.Instantiate(uiPre);
+                startUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
+                startUI.transform.localPosition = uiPre.transform.localPosition;
+                startUI.transform.localScale = uiPre.transform.localScale;
+                
+                startUI.AddComponent<LaunchUI>();
+            }
+        }
+    }
 
-
-		Debug.LogError("----zys----   StartCoroutine");
-		var request = AssetBundleManager.Initialize();
-		if (request != null)
-			yield return StartCoroutine(request);
-
-		Debug.LogError("----zys----  end load mainfalst");
-		
-		string m_DownloadingError;
-		LoadedAssetBundle bundle = AssetBundleManager.GetLoadedAssetBundle("map_" , out m_DownloadingError);
-		if (bundle != null)
-		{
-			
-		}
-		
-	}
-
-	// Use this for initialization
-	void Start () {
-
+    // Use this for initialization
+    void Start()
+    {
 //		GTSenceManage.Instance ().InitUIBase ();
-	}
+    }
 
-	void EndShowLogo()
-	{
-		if (false) {
-		
-		}else {
-			GotoMain ();
-		}
-	}
-
-	void EndShowTip()
-	{
-
-		Invoke("GotoMain",1.7f);
-	}
-	/// <summary>
-	/// 这里去主界面应该通过资源检测;
-	/// </summary>
-	void GotoMain()
-	{
-		//添加loading
-		GamePreCtrl preCtrl = GTSenceManage.Instance().AddLoadingUIToSence<GamePreCtrl>(EndDealOp_ScenePreCtrl);
-//		LoadingController.GetInstance ().GotoOneSence (SenceType.mainSence);
-		
-//		LoadingController.GetInstance ().LoadSenceAsyncDone(); = "main";
-//		Application.LoadLevelAsync("loading");
-		//		Application.LoadLevelAdditiveAsync ("yourScene"); //不删除原场景 情况下  慎用.
-	}
-	
-	void EndDealOp_ScenePreCtrl()
-	{
-		Debuger.Log ("zys -----  1 前置逻辑准备好了");
-		
-//		GTSenceManage.Instance ().PlanLogonSence ();
-		
-	}
-	
+   
 }

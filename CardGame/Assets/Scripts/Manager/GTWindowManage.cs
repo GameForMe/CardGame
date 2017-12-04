@@ -118,4 +118,39 @@ public class GTWindowManage
     }
    
  
+    #region 通用提示
+    public void OpenDialog_Tip(string tipDes)
+    {
+        OpenDialog_Tip(tipDes, TipType.justShow, null);
+    }
+    public void OpenDialog_Tip(string tipDes, TipType curTipType)
+    {
+        OpenDialog_Tip(tipDes, curTipType, null);
+    }
+    public void OpenDialog_Tip(string tipDes, Dialog_Tip.SureContinueCall callBack)
+    {
+        OpenDialog_Tip(tipDes, TipType.callShow, callBack);
+    }
+    /// <summary>
+    /// Opens the dialog_ tip.
+    /// 打开提示框;
+    /// </summary>
+    /// <param name="tipDes">Tip DES.</param>
+    /// <param name="callBack">Call back.</param>
+    public void OpenDialog_Tip(string tipDes, TipType curTipType, Dialog_Tip.SureContinueCall callBack)
+    {
+        GameObject OriginalObj = CatchPoolManage.Instance().GetOnePrefabsObj("UI/Tip/Prefabs/Dialog_Tip");
+        if (OriginalObj != null)
+        {
+            Dialog_Tip diaSrc = InstantiateObjFun.AddOneObjToParent<Dialog_Tip>(OriginalObj, RootTransform);
+            diaSrc.curTipType = curTipType;
+            diaSrc.sureContinueCall = callBack;
+
+            diaSrc.TipDes = tipDes;
+        }
+    }
+
+
+    #endregion
+    
 }

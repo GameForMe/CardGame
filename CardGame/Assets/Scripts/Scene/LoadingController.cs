@@ -162,7 +162,7 @@ public class LoadingController
 	{
 		Debuger.Log ("zys -----  1 前置逻辑准备好了");
 		isCtrlReady = true;
-		GTSenceManage.Instance ().PlanLogonSence ();
+//		GTSenceManage.Instance ().PlanLogonSence ();
 		ChecnIsLoadingEnd ();
 	}
 	/// <summary>

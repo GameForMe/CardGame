@@ -1,5 +1,5 @@
 ﻿using System;
-
+using  UnityEngine;
 
 public class GameInit
 {
@@ -23,10 +23,26 @@ public class GameInit
 
 //		GameDataCenter.Instance ().GetCacthDataToSet ();
 //		HttpController.Instance ();
-//		ModelManager.Instance ().InitAllModel ();
+		ModelManager.Instance ().InitAllModel ();
 //		GTUIManager.Instance().InitUIBase ();
 //
 //		GameDataCenter.Instance ().GetCacthDataToSet ();
+	}
+
+	public  Transform StaticCanvas { get; set;} 
+	public  Transform EffCanvas { get; set;} 
+	
+	public void SetInitRootUI(GameObject staticObj, GameObject effObj)
+	{
+		StaticCanvas = staticObj.transform;
+		EffCanvas = effObj.transform;
+	}
+/// <summary>
+/// 添加显示根节点;
+/// </summary>
+	public void AddShowRootUI()
+	{
+		
 	}
 }
 

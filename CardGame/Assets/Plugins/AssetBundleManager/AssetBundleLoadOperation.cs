@@ -15,7 +15,7 @@ namespace AssetBundles
 		public bool MoveNext()
 		{
 			bool isDEdn = IsDone ();
-			//Debug.LogError ("--- zys ---- checkisdone "+  isDEdn);
+			Debug.LogError ("--- zys ---- checkisdone "+  isDEdn);
 			return !isDEdn;
 		}
 		
@@ -246,6 +246,7 @@ namespace AssetBundles
 				return false;
 
 			LoadedAssetBundle bundle = AssetBundleManager.GetLoadedAssetBundle (m_AssetBundleName, out m_DownloadingError);
+			Debuger.Log(" load res " + m_AssetBundleName);
 			if (bundle != null)
 			{
 				isGetBundle = true;
