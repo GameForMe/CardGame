@@ -228,17 +228,20 @@ namespace AssetBundles
 		{
 			return Initialize(Utility.GetPlatformName());
 		}
-			
-	
-		// Load AssetBundleManifest.
-		static public AssetBundleLoadManifestOperation Initialize (string manifestAssetBundleName)
+
+        static GameObject curObj;
+        // Load AssetBundleManifest.
+        static public AssetBundleLoadManifestOperation Initialize (string manifestAssetBundleName)
 		{
 	#if UNITY_EDITOR
 			Log (LogType.Info, "Simulation Mode: " + (SimulateAssetBundleInEditor ? "Enabled" : "Disabled"));
-	#endif
-	
-			var go = new GameObject("AssetBundleManager", typeof(AssetBundleManager));
-			DontDestroyOnLoad(go);
+#endif
+            if(!curObj)
+            {
+                curObj = new GameObject("AssetBundleManager", typeof(AssetBundleManager));
+                DontDestroyOnLoad(curObj);
+            }
+ 
 		
 	#if UNITY_EDITOR	
 			// If we're in Editor simulation mode, we don't need the manifest assetBundle.
