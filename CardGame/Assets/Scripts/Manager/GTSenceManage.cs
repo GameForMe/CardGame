@@ -187,7 +187,24 @@ public class GTSenceManage :MonoBehaviour
 		}
 	}
 	#region 登录场景控制;
+	
+	protected IEnumerator AddMainUIToSence()
+	{
+		AssetBundleLoadAssetOperation request = AssetBundleManager.LoadAssetAsync("uilogin.unity3d", "UILogin", typeof(GameObject));
+		if (request == null)
+			yield break;
+		yield return StartCoroutine(request);
+		GameObject prefab = request.GetAsset<GameObject>();
+		if (prefab != null)
+		{
+			GameObject startUI = GameObject.Instantiate(prefab);
+			startUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
+			startUI.transform.localPosition = prefab.transform.localPosition;
+			startUI.transform.localScale = prefab.transform.localScale;
 
+			startUI.AddComponent<LoginUI>();
+		}
+	}
 	/// <summary>
 	/// Gotos the logon sence.
 	/// 进入登录场景;
@@ -195,24 +212,26 @@ public class GTSenceManage :MonoBehaviour
 	public void GotoLogonSence ()
 	{
 		curSenceType = UISenceType.logonUISence;
-		string m_DownloadingError;
-		LoadedAssetBundle bundle =
-			AssetBundleManager.GetLoadedAssetBundle("uilogin.unity3d", out m_DownloadingError);
-		if (bundle != null)
-		{
-			AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("UILogin");
-			if (request1 != null)
-			{
-				GameObject uiPre = request1.asset as GameObject;
-				GameObject curUI = GameObject.Instantiate(uiPre);
-				curUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
-				curUI.transform.localPosition = uiPre.transform.localPosition;
-				curUI.transform.localScale = uiPre.transform.localScale;
-                
-				curUI.AddComponent<LoginUI>();
-//				Destroy(curUI.GetComponent("qiemove"));//删除绑定脚本  
-			}
-		}
+		
+		StartCoroutine(AddMainUIToSence());
+//		string m_DownloadingError;
+//		LoadedAssetBundle bundle =
+//			AssetBundleManager.GetLoadedAssetBundle("uilogin.unity3d", out m_DownloadingError);
+//		if (bundle != null)
+//		{
+//			AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("UILogin");
+//			if (request1 != null)
+//			{
+//				GameObject uiPre = request1.asset as GameObject;
+//				GameObject curUI = GameObject.Instantiate(uiPre);
+//				curUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
+//				curUI.transform.localPosition = uiPre.transform.localPosition;
+//				curUI.transform.localScale = uiPre.transform.localScale;
+//                
+//				curUI.AddComponent<LoginUI>();
+////				Destroy(curUI.GetComponent("qiemove"));//删除绑定脚本  
+//			}
+//		}
 		
 //		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/Logon/Prefabs/LogonUI");
 //
@@ -254,23 +273,24 @@ public class GTSenceManage :MonoBehaviour
 			curSence.CloseUI ();
 		}
 		curSenceType = UISenceType.mainUISence;
-		string m_DownloadingError;
-		LoadedAssetBundle bundle =
-			AssetBundleManager.GetLoadedAssetBundle("uimain.unity3d", out m_DownloadingError);
-		if (bundle != null)
-		{
-			AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("UIMain");
-			if (request1 != null)
-			{
-				GameObject uiPre = request1.asset as GameObject;
-				GameObject curUI = GameObject.Instantiate(uiPre);
-				curUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
-				curUI.transform.localPosition = uiPre.transform.localPosition;
-				curUI.transform.localScale = uiPre.transform.localScale;
-                
-				curUI.AddComponent<MainUI>();
-			}
-		}
+		
+//		string m_DownloadingError;
+//		LoadedAssetBundle bundle =
+//			AssetBundleManager.GetLoadedAssetBundle("uimain.unity3d", out m_DownloadingError);
+//		if (bundle != null)
+//		{
+//			AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("UIMain");
+//			if (request1 != null)
+//			{
+//				GameObject uiPre = request1.asset as GameObject;
+//				GameObject curUI = GameObject.Instantiate(uiPre);
+//				curUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
+//				curUI.transform.localPosition = uiPre.transform.localPosition;
+//				curUI.transform.localScale = uiPre.transform.localScale;
+//                
+//				curUI.AddComponent<MainUI>();
+//			}
+//		}
 		
 //		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/MainUI/Prefabs/MainNewUIPanel");
 //

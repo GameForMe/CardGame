@@ -88,6 +88,31 @@ public class StartSenceManage : MonoBehaviour
             effCanvas = GameObject.Instantiate(prefab);
     }
 
+    protected IEnumerator LoadLoadingUI()
+    {
+        AssetBundleLoadAssetOperation request = AssetBundleManager.LoadAssetAsync("uiloading.unity3d", "uiloading", typeof(GameObject));
+        if (request == null)
+            yield break;
+        yield return StartCoroutine(request);
+    }
+
+    protected IEnumerator LoadStartSenceUI()
+    {
+        AssetBundleLoadAssetOperation request = AssetBundleManager.LoadAssetAsync("uistartgame.unity3d", "UIStartGame", typeof(GameObject));
+        if (request == null)
+            yield break;
+        yield return StartCoroutine(request);
+        GameObject prefab = request.GetAsset<GameObject>();
+        if (prefab != null)
+        {
+            GameObject startUI = GameObject.Instantiate(prefab);
+            startUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
+            startUI.transform.localPosition = prefab.transform.localPosition;
+            startUI.transform.localScale = prefab.transform.localScale;
+
+            startUI.AddComponent<LaunchUI>();
+        }
+    }
     //protected IEnumerator LoadRootUI()
     //{
     //    AssetBundleLoadOperationFull request_baseui = AssetBundleManager.LoadAssetBundleAsync("baseui.unity3d");
@@ -119,43 +144,43 @@ public class StartSenceManage : MonoBehaviour
     //    }
     //}
 
-    protected IEnumerator LoadLoadingUI()
-    {
-        AssetBundleLoadOperationFull request_uiloading = AssetBundleManager.LoadAssetBundleAsync("uiloading.unity3d");
-        if (request_uiloading == null)
-            yield break;
-        yield return StartCoroutine(request_uiloading);
-    }
-    protected IEnumerator LoadStartSenceUI()
-    {
-        AssetBundleLoadOperationFull request_StartGame = AssetBundleManager.LoadAssetBundleAsync("UIStartGame.unity3d");
-        if (request_StartGame == null)
-            yield break;
-        yield return StartCoroutine(request_StartGame);
-        string m_DownloadingError;
-        LoadedAssetBundle bundle =
-            AssetBundleManager.GetLoadedAssetBundle("UIStartGame.unity3d", out m_DownloadingError);
-        if (bundle != null)
-        {
-            AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("UIStartGame");
-            if (request1 != null)
-            {
-                GameObject uiPre = request1.asset as GameObject;
-                GameObject startUI = GameObject.Instantiate(uiPre);
-                startUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
-                startUI.transform.localPosition = uiPre.transform.localPosition;
-                startUI.transform.localScale = uiPre.transform.localScale;
-
-                startUI.AddComponent<LaunchUI>();
-            }
-        }
-    }
+//    protected IEnumerator LoadLoadingUI()
+//    {
+//        AssetBundleLoadOperationFull request_uiloading = AssetBundleManager.LoadAssetBundleAsync("uiloading.unity3d");
+//        if (request_uiloading == null)
+//            yield break;
+//        yield return StartCoroutine(request_uiloading);
+//    }
+//    protected IEnumerator LoadStartSenceUI1()
+//    {
+//        AssetBundleLoadOperationFull request_StartGame = AssetBundleManager.LoadAssetBundleAsync("UIStartGame.unity3d");
+//        if (request_StartGame == null)
+//            yield break;
+//        yield return StartCoroutine(request_StartGame);
+//        string m_DownloadingError;
+//        LoadedAssetBundle bundle =
+//            AssetBundleManager.GetLoadedAssetBundle("UIStartGame.unity3d", out m_DownloadingError);
+//        if (bundle != null)
+//        {
+//            AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("UIStartGame");
+//            if (request1 != null)
+//            {
+//                GameObject uiPre = request1.asset as GameObject;
+//                GameObject startUI = GameObject.Instantiate(uiPre);
+//                startUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
+//                startUI.transform.localPosition = uiPre.transform.localPosition;
+//                startUI.transform.localScale = uiPre.transform.localScale;
+//
+//                startUI.AddComponent<LaunchUI>();
+//            }
+//        }
+//    }
 
     // Use this for initialization
-    void Start()
-    {
-        //		GTSenceManage.Instance ().InitUIBase ();
-    }
+//    void Start()
+//    {
+//        //		GTSenceManage.Instance ().InitUIBase ();
+//    }
 
 
 }

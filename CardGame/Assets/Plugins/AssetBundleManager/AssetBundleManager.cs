@@ -466,6 +466,7 @@ namespace AssetBundles
 		// Load asset from the given assetBundle.
 		static public AssetBundleLoadAssetOperation LoadAssetAsync (string assetBundleName, string assetName, System.Type type)
 		{
+			assetBundleName = assetBundleName.ToLower();
 			Log(LogType.Info, "Loading " + assetName + " from " + assetBundleName + " bundle");
 	
 			AssetBundleLoadAssetOperation operation = null;
