@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 271277118}
   - component: {fileID: 271277117}
   m_Layer: 5
-  m_Name: Image
+  m_Name: BK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +176,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 993676813}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -261,17 +261,17 @@ Prefab:
     - target: {fileID: 224562005829156952, guid: 69bfabadf3ba54a8bb27ffa114501600,
         type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224562005829156952, guid: 69bfabadf3ba54a8bb27ffa114501600,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 667
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224562005829156952, guid: 69bfabadf3ba54a8bb27ffa114501600,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 375
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224562005829156952, guid: 69bfabadf3ba54a8bb27ffa114501600,
         type: 2}
@@ -286,22 +286,22 @@ Prefab:
     - target: {fileID: 224562005829156952, guid: 69bfabadf3ba54a8bb27ffa114501600,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224562005829156952, guid: 69bfabadf3ba54a8bb27ffa114501600,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224562005829156952, guid: 69bfabadf3ba54a8bb27ffa114501600,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224562005829156952, guid: 69bfabadf3ba54a8bb27ffa114501600,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224562005829156952, guid: 69bfabadf3ba54a8bb27ffa114501600,
         type: 2}
@@ -426,7 +426,7 @@ GameObject:
   - component: {fileID: 993676811}
   - component: {fileID: 993676810}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: BKCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -499,10 +499,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 271277116}
   - {fileID: 368596893}
   - {fileID: 2147364559}
   - {fileID: 1586279923}
-  - {fileID: 271277116}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -618,7 +618,7 @@ Prefab:
     - target: {fileID: 224061325275701706, guid: c8edd9e242aaf4350a407b7b4b9f6e1d,
         type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 224061325275701706, guid: c8edd9e242aaf4350a407b7b4b9f6e1d,
         type: 2}
@@ -727,7 +727,7 @@ Prefab:
     - target: {fileID: 224729986736283856, guid: ba2293ca3eee54c58a94841a58c8988c,
         type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 224729986736283856, guid: ba2293ca3eee54c58a94841a58c8988c,
         type: 2}

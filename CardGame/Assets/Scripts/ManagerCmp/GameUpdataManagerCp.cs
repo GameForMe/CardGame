@@ -42,12 +42,7 @@ public class GameUpdataManagerCp : PreCtrlBase
         LoadRes();
         LoadXML();
         StartCoroutine(LoadData());
-        StartCoroutine(LoadLoginUI());
-        
-        if (EndLoadCall != null)
-        {
-            EndLoadCall();
-        }
+ 
     }
     protected IEnumerator LoadLoginUI()
     {
@@ -98,7 +93,12 @@ public class GameUpdataManagerCp : PreCtrlBase
 //		DontDestroyOnLoad(gameObject);
         yield return StartCoroutine(CopZIPFile(zipPath, saveZipPath));
 
-
+        yield return  StartCoroutine(LoadLoginUI());
+       
+        if (EndLoadCall != null)
+        {
+            EndLoadCall();
+        }
     }
 
     IEnumerator CopZIPFile(string filePath, string saveZipPath)

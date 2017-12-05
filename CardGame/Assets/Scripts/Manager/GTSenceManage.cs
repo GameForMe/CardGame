@@ -209,7 +209,7 @@ public class GTSenceManage :MonoBehaviour
 				curUI.transform.localPosition = uiPre.transform.localPosition;
 				curUI.transform.localScale = uiPre.transform.localScale;
                 
-				curUI.AddComponent<LaunchUI>();
+				curUI.AddComponent<LoginUI>();
 //				Destroy(curUI.GetComponent("qiemove"));//删除绑定脚本  
 			}
 		}
