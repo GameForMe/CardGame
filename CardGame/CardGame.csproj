@@ -77,6 +77,18 @@
     <Reference Include="Debuger">
       <HintPath>Assets\Plugins\Debuger.dll</HintPath>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Plugins\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>Assets\Plugins\DOTween\DOTween43.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>Assets\Plugins\DOTween\DOTween46.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween50">
+      <HintPath>Assets\Plugins\DOTween\DOTween50.dll</HintPath>
+    </Reference>
     <Reference Include="Excel">
       <HintPath>Assets\Plugins\ExcelParser\Dll\Excel.dll</HintPath>
     </Reference>
@@ -86,6 +98,15 @@
     <Reference Include="System.Data">
       <HintPath>Assets\Plugins\ExcelParser\Dll\System.Data.dll</HintPath>
     </Reference>
+    <Reference Include="PBMessage">
+      <HintPath>Assets\Scripts\NET\protobuf\PBMessage.dll</HintPath>
+    </Reference>
+    <Reference Include="PBMessageSerializer">
+      <HintPath>Assets\Scripts\NET\protobuf\PBMessageSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>Assets\Scripts\NET\protobuf\protobuf-net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="CardGame.Plugins.csproj">
@@ -94,16 +115,95 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Data\DataBase\DataMgrBase.cs" />
-    <Compile Include="Assets\Scripts\Data\DataBase\IDataBean.cs" />
-    <Compile Include="Assets\Scripts\Data\DataBase\IDataMgrBase.cs" />
-    <Compile Include="Assets\Scripts\Data\DataBeans\CardData.cs" />
-    <Compile Include="Assets\Scripts\Data\DataBeans\SkillData.cs" />
-    <Compile Include="Assets\Scripts\Data\DataMgr\CardSetMgr.cs" />
-    <Compile Include="Assets\Scripts\Data\DataMgr\SkillSetMgr.cs" />
-    <Compile Include="Assets\Scripts\Data\DataSetMgr.cs" />
+    <Compile Include="Assets\Script_Game\Data\DataBase\DataMgrBase.cs" />
+    <Compile Include="Assets\Script_Game\Data\DataBase\IDataBean.cs" />
+    <Compile Include="Assets\Script_Game\Data\DataBase\IDataMgrBase.cs" />
+    <Compile Include="Assets\Script_Game\Data\DataBeans\CardData.cs" />
+    <Compile Include="Assets\Script_Game\Data\DataBeans\SkillData.cs" />
+    <Compile Include="Assets\Script_Game\Data\DataMgr\CardSetMgr.cs" />
+    <Compile Include="Assets\Script_Game\Data\DataMgr\SkillSetMgr.cs" />
+    <Compile Include="Assets\Script_Game\Data\DataSetMgr.cs" />
+    <Compile Include="Assets\Script_Game\Scene\StartSenceManage.cs" />
+    <Compile Include="Assets\Script_Game\ScenePre\GamePreCtrl.cs" />
+    <Compile Include="Assets\Script_Game\ScenePre\MainUIPreCtrl.cs" />
+    <Compile Include="Assets\Script_Game\ScenePre\PreCtrlMainScene.cs" />
+    <Compile Include="Assets\Script_Game\ScenePre\PreCtrlWarScene.cs" />
+    <Compile Include="Assets\Script_Game\UIDialog\Dialog_Tip.cs" />
+    <Compile Include="Assets\Script_Game\UILogin\GameEnterModel.cs" />
+    <Compile Include="Assets\Script_Game\UILogin\LoginUI.cs" />
+    <Compile Include="Assets\Script_Game\UIMain\MainUI.cs" />
+    <Compile Include="Assets\Script_Game\UIStartGame\LaunchUI.cs" />
+    <Compile Include="Assets\Scripts\Base\BaseBorderUI.cs" />
+    <Compile Include="Assets\Scripts\Base\BaseModel.cs" />
+    <Compile Include="Assets\Scripts\Base\BaseSence.cs" />
+    <Compile Include="Assets\Scripts\Base\BaseUI.cs" />
+    <Compile Include="Assets\Scripts\Base\BaseWindow.cs" />
+    <Compile Include="Assets\Scripts\Base\Helper\RandomHelper.cs" />
+    <Compile Include="Assets\Scripts\Base\Helper\TimeHelper.cs" />
+    <Compile Include="Assets\Scripts\Base\MainRootUI.cs" />
+    <Compile Include="Assets\Scripts\Base\Manager.cs" />
+    <Compile Include="Assets\Scripts\Base\Object\Object.cs" />
+    <Compile Include="Assets\Scripts\Base\PreCtrlBase.cs" />
+    <Compile Include="Assets\Scripts\CatchSet.cs" />
+    <Compile Include="Assets\Scripts\Common\Util.cs" />
+    <Compile Include="Assets\Scripts\ConstDefine\AppConst.cs" />
+    <Compile Include="Assets\Scripts\ConstDefine\NotiConst.cs" />
+    <Compile Include="Assets\Scripts\Data_G\MsgSet.cs" />
+    <Compile Include="Assets\Scripts\Data_G\MsgSocketTipData.cs" />
+    <Compile Include="Assets\Scripts\Data_G\MsgTipStruct.cs" />
+    <Compile Include="Assets\Scripts\Data_G\Sound3DData.cs" />
+    <Compile Include="Assets\Scripts\Data_G\WarTipData.cs" />
+    <Compile Include="Assets\Scripts\Data_G\WarTipStruct.cs" />
+    <Compile Include="Assets\Scripts\Event\EventCenterController.cs" />
+    <Compile Include="Assets\Scripts\Event\EventTriggerListener.cs" />
+    <Compile Include="Assets\Scripts\Event\GameEnterEvent.cs" />
+    <Compile Include="Assets\Scripts\GameSet.cs" />
+    <Compile Include="Assets\Scripts\Loading\LoadingDataUI.cs" />
+    <Compile Include="Assets\Scripts\Loading\LoadingUI.cs" />
+    <Compile Include="Assets\Scripts\Manager\audio3Dctrl.cs" />
+    <Compile Include="Assets\Scripts\Manager\AudioClipObj.cs" />
+    <Compile Include="Assets\Scripts\Manager\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\CatchPoolManage.cs" />
+    <Compile Include="Assets\Scripts\Manager\GameInit.cs" />
+    <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\GTAudioSource.cs" />
+    <Compile Include="Assets\Scripts\Manager\GTMessageTipManage.cs" />
+    <Compile Include="Assets\Scripts\Manager\GTResouseManage.cs" />
+    <Compile Include="Assets\Scripts\Manager\GTSenceManage.cs" />
+    <Compile Include="Assets\Scripts\Manager\GTUIManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\GTWindowManage.cs" />
+    <Compile Include="Assets\Scripts\Manager\ModelManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\ObjectPoolManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\ResourceManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\ThreadManager.cs" />
+    <Compile Include="Assets\Scripts\ManagerCmp\GameUpdataManagerCp.cs" />
+    <Compile Include="Assets\Scripts\NET\GameMessage.cs" />
+    <Compile Include="Assets\Scripts\NET\Http\HttpController.cs" />
+    <Compile Include="Assets\Scripts\NET\Http\HttpDataCmp.cs" />
+    <Compile Include="Assets\Scripts\NET\MessageRecieveHandle.cs" />
+    <Compile Include="Assets\Scripts\NET\NetPack.cs" />
+    <Compile Include="Assets\Scripts\NET\NetSet.cs" />
+    <Compile Include="Assets\Scripts\ObjectPool\GameObjectPool.cs" />
+    <Compile Include="Assets\Scripts\ObjectPool\ObjectPool.cs" />
+    <Compile Include="Assets\Scripts\Scene\LoadingController.cs" />
+    <Compile Include="Assets\Scripts\Scene\LoadingSenceManager.cs" />
+    <Compile Include="Assets\Scripts\Tools\CommonFun.cs" />
+    <Compile Include="Assets\Scripts\Tools\HttpTools.cs" />
+    <Compile Include="Assets\Scripts\Tools\InstantiateObjFun.cs" />
+    <Compile Include="Assets\Scripts\Tools\MiniJSON.cs" />
+    <Compile Include="Assets\Scripts\Tools\ReflectionAssignment.cs" />
+    <Compile Include="Assets\Scripts\Tools\StringCodeAndDecode.cs" />
+    <Compile Include="Assets\Scripts\Tools\StringFunSet.cs" />
+    <Compile Include="Assets\Test\TestAtlasBundle.cs" />
+    <Compile Include="Assets\Test\UIMain.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Plugins\DOTween\DOTween.XML" />
+    <None Include="Assets\Plugins\DOTween\DOTween43.xml" />
+    <None Include="Assets\Plugins\DOTween\DOTween46.xml" />
+    <None Include="Assets\Plugins\DOTween\DOTween50.xml" />
+    <None Include="Assets\Plugins\DOTween\Editor\DOTweenEditor.XML" />
+    <None Include="Assets\Plugins\DOTween\readme.txt" />
     <None Include="Assets\Plugins\ExcelParser\Templete\MgrSetTemplete.txt" />
     <None Include="Assets\Plugins\ExcelParser\Templete\MgrTemplete.txt" />
   </ItemGroup>

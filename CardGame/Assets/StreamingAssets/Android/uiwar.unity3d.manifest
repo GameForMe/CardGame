@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2453529593
+CRC: 476876561
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -38,4 +38,4 @@ ClassTypes:
 Assets:
 - Assets/Bundles/UI/UIWar.prefab
 Dependencies:
-- /Users/zys/U3DWork/GitWork/CardGame.git/trunk/CardGame/AssetBundles/Android/battleui
+- H:/GitHub/CardGame.git/trunk/CardGame/AssetBundles/Android/battleui

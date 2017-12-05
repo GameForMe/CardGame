@@ -176,29 +176,19 @@ public class GameUpdataManagerCp : PreCtrlBase
     protected IEnumerator Initialize()
     {
         // Don't destroy this gameObject as we depend on it to run the loading script.
-//		DontDestroyOnLoad(gameObject);
-
-        // With this code, when in-editor or using a development builds: Always use the AssetBundle Server
-        // (This is very dependent on the production workflow of the project. 
-        // 	Another approach would be to make this configurable in the standalone player.)
-//		#if DEVELOPMENT_BUILD || UNITY_EDITOR
-        //加载streampath 里的;
-//		AssetBundleManager.SetDevelopmentAssetBundleServer ();
-//		#else
-        // Use the following code if AssetBundles are embedded in the project for example via StreamingAssets folder etc:
-//		Debug.LogError ("zys set url in file:// ......");
-//		if(AssetBundleManager.isNeedURLUpdata)
-//		{	
-//		//http://10.0.4.139/StreamingAssets/iOS/iOS
-//
-//		AssetBundleManager.SetSourceAssetBundleURL("http://127.0.0.1/StreamingAssets/");
-//		}else{
-        AssetBundleManager.SetSourceAssetBundleDirectory();
-//		}
-//	
-        // Or customize the URL based on your deployment or configuration
-        //AssetBundleManager.SetSourceAssetBundleURL("http://www.MyWebsite/MyAssetBundles");
-//		#endif
+        //		DontDestroyOnLoad(gameObject);
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+        AssetBundleManager.SetDevelopmentAssetBundleServer();
+#else
+		// Use the following code if AssetBundles are embedded in the project for example via StreamingAssets folder etc:
+        if(AssetBundleManager.IsLoadFromStream)
+        {    
+                AssetBundleManager.SetSourceAssetBundleDirectory();
+        }else{
+        AssetBundleManager.SetSourceAssetBundleURL(Application.dataPath + "/");
+        }
+		
+#endif
 
         Debug.LogError("----zys----   StartCoroutine");
         // Initialize AssetBundleManifest which loads the AssetBundleManifest object.

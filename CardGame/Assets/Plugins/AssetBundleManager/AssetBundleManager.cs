@@ -21,7 +21,6 @@ using System.Collections.Generic;
 
 namespace AssetBundles
 {	
-
 	// Loaded assetBundle contains the references count which can be used to unload dependent assetBundles automatically.
 	public class LoadedAssetBundle
 	{
@@ -36,20 +35,15 @@ namespace AssetBundles
 	}
 	
 	// Class takes care of loading assetBundle and its dependencies automatically, loading variants automatically.
-	/// <summary>
-	/// Asset bundle manager.
-	/// 模拟模式的话 直接获取预设不获取bundle
-	/// isNeedURLUpdata 是否采用url 热梗模式;
-	/// </summary>
 	public class AssetBundleManager : MonoBehaviour
 	{
-		/// <summary>
-		/// The is need URL updata.
-		/// zys 是URL 更新模式还是 streamAsset模式;
-		/// </summary>
-		public static bool isNeedURLUpdata = false;
+        /// <summary>
+        /// 如果需要从steam文件夹加载;
+        /// </summary>
+        public static bool IsLoadFromStream = false;
+        public static string ProjectName = "DarkCardGame/";
 
-		public enum LogMode { All, JustErrors };
+        public enum LogMode { All, JustErrors };
 		public enum LogType { Info, Warning, Error };
 	
 		static LogMode m_LogMode = LogMode.All;
@@ -61,11 +55,6 @@ namespace AssetBundles
 		const string kSimulateAssetBundles = "SimulateAssetBundles";
 	#endif
 	
-		/// <summary>
-		/// The m loaded asset bundles.
-		/// zys  当前在内存中的bundle;  
-		/// ----  用完需要手动删除;
-		/// </summary>
 		static Dictionary<string, LoadedAssetBundle> m_LoadedAssetBundles = new Dictionary<string, LoadedAssetBundle> ();
 		static Dictionary<string, WWW> m_DownloadingWWWs = new Dictionary<string, WWW> ();
 		static Dictionary<string, string> m_DownloadingErrors = new Dictionary<string, string> ();
@@ -93,12 +82,9 @@ namespace AssetBundles
 		}
 	
 		// AssetBundleManifest object which can be used to load the dependecies and check suitable assetBundle variants.
-		public static AssetBundleManifest AssetBundleManifestObject	
+		public static AssetBundleManifest AssetBundleManifestObject
 		{
-			set {
-				Debug.LogError ("zys set mainfest  with " + value.name);
-				m_AssetBundleManifest = value; 
-			}
+			set {m_AssetBundleManifest = value; }
 		}
 	
 		private static void Log(LogType logType, string text)
@@ -137,59 +123,56 @@ namespace AssetBundles
 		private static string GetStreamingAssetsPath()
 		{
 			if (Application.isEditor)
-				return  "file://" + Application.streamingAssetsPath;
-//				return "file://" +  System.Environment.CurrentDirectory.Replace("\\", "/"); // Use the build output folder directly.
+                return "file://" + Application.streamingAssetsPath;
+            //return "file://" +  System.Environment.CurrentDirectory.Replace("\\", "/"); // Use the build output folder directly.
 			else if (Application.isWebPlayer)
-				return System.IO.Path.GetDirectoryName (Application.absoluteURL).Replace ("\\", "/") + "/StreamingAssets";
-			else if (Application.isMobilePlatform || Application.isConsolePlatform) {
-				#if UNITY_IPHONE
-				return "file://" + Application.streamingAssetsPath;
-				#endif
+				return System.IO.Path.GetDirectoryName(Application.absoluteURL).Replace("\\", "/")+ "/StreamingAssets";
+			else if (Application.isMobilePlatform || Application.isConsolePlatform)
 				return Application.streamingAssetsPath;
-			}
 			else // For standalone player.
 				return "file://" +  Application.streamingAssetsPath;
 		}
-	
-		public static void SetSourceAssetBundleDirectory(string relativePath)
-		{
-			BaseDownloadingURL = GetStreamingAssetsPath() + relativePath;
-			Debug.LogError ("zys  set url in source " + BaseDownloadingURL);
-		}
 
+	
 		public static void SetSourceAssetBundleDirectory()
 		{
-			BaseDownloadingURL = GetStreamingAssetsPath() + "/" + Utility.GetPlatformName() + "/";
-			Debug.LogError ("zys  set url in source " + BaseDownloadingURL);
+			BaseDownloadingURL = GetStreamingAssetsPath()+"/" + Utility.GetPlatformName() + "/";
 		}
-
-		
+		/// <summary>
+        /// URL 情况下需要区分项目名称;
+        /// </summary>
+        /// <param name="absolutePath"></param>
 		public static void SetSourceAssetBundleURL(string absolutePath)
 		{
-			BaseDownloadingURL = absolutePath + Utility.GetPlatformName() + "/";
-			Debug.LogError ("zys  set url in AssetBundle " + BaseDownloadingURL);
+			BaseDownloadingURL = absolutePath + ProjectName  + Utility.GetPlatformName() + "/";
 		}
-	
-		public static void SetDevelopmentAssetBundleServer()
+
+
+        public static void SetDevelopmentAssetBundleServer()
 		{
 			#if UNITY_EDITOR
 			// If we're in Editor simulation mode, we don't have to setup a download URL
 			if (SimulateAssetBundleInEditor)
 				return;
 			#endif
-			
-			TextAsset urlFile = Resources.Load("AssetBundleServerURL") as TextAsset;
-			string url = (urlFile != null) ? urlFile.text.Trim() : null;
-			if (url == null || url.Length == 0)
-			{
-				Debug.LogError("Development Server URL could not be found.");
-				//AssetBundleManager.SetSourceAssetBundleURL("http://localhost:7888/" + UnityHelper.GetPlatformName() + "/");
-			}
-			else
-			{
-				Debug.LogError ("zys set  in dev");
-				AssetBundleManager.SetSourceAssetBundleURL(url);
-			}
+			if(IsLoadFromStream)//从steam文件夹;
+            {
+                AssetBundleManager.SetSourceAssetBundleDirectory();
+            }
+            else
+            {
+                TextAsset urlFile = Resources.Load("AssetBundleServerURL") as TextAsset;
+                string url = (urlFile != null) ? urlFile.text.Trim() : null;
+                if (url == null || url.Length == 0)
+                {
+                    Debug.LogError("Development Server URL could not be found.");
+                    //AssetBundleManager.SetSourceAssetBundleURL("http://localhost:7888/" + UnityHelper.GetPlatformName() + "/");
+                }
+                else
+                {
+                    AssetBundleManager.SetSourceAssetBundleURL(url);
+                }
+            }
 		}
 		
 		// Get loaded AssetBundle, only return vaild object when all the dependencies are downloaded successfully.
@@ -228,20 +211,17 @@ namespace AssetBundles
 		{
 			return Initialize(Utility.GetPlatformName());
 		}
-
-        static GameObject curObj;
-        // Load AssetBundleManifest.
-        static public AssetBundleLoadManifestOperation Initialize (string manifestAssetBundleName)
+			
+	
+		// Load AssetBundleManifest.
+		static public AssetBundleLoadManifestOperation Initialize (string manifestAssetBundleName)
 		{
 	#if UNITY_EDITOR
 			Log (LogType.Info, "Simulation Mode: " + (SimulateAssetBundleInEditor ? "Enabled" : "Disabled"));
-#endif
-            if(!curObj)
-            {
-                curObj = new GameObject("AssetBundleManager", typeof(AssetBundleManager));
-                DontDestroyOnLoad(curObj);
-            }
- 
+	#endif
+	
+			var go = new GameObject("AssetBundleManager", typeof(AssetBundleManager));
+			DontDestroyOnLoad(go);
 		
 	#if UNITY_EDITOR	
 			// If we're in Editor simulation mode, we don't need the manifest assetBundle.
@@ -274,7 +254,7 @@ namespace AssetBundles
 					return;
 				}
 			}
-//			Debug.LogError ("zys -------  LoadAssetBundleInternal " + assetBundleName);
+	
 			// Check if the assetBundle has already been processed.
 			bool isAlreadyProcessed = LoadAssetBundleInternal(assetBundleName, isLoadingAssetBundleManifest);
 	
@@ -286,14 +266,12 @@ namespace AssetBundles
 		// Remaps the asset bundle name to the best fitting asset bundle variant.
 		static protected string RemapVariantName(string assetBundleName)
 		{
-//			Debug.LogError ("zys -------  RemapVariantName " + 1);
 			string[] bundlesWithVariant = m_AssetBundleManifest.GetAllAssetBundlesWithVariant();
 
 			string[] split = assetBundleName.Split('.');
 
 			int bestFit = int.MaxValue;
 			int bestFitIndex = -1;
-//			Debug.LogError ("zys -------  RemapVariantName " + 2);
 			// Loop all the assetBundles with variant to find the best fit variant assetBundle.
 			for (int i = 0; i < bundlesWithVariant.Length; i++)
 			{
@@ -313,8 +291,7 @@ namespace AssetBundles
 					bestFitIndex = i;
 				}
 			}
-
-//			Debug.LogError ("zys -------  RemapVariantName " + 3);
+			
 			if (bestFit == int.MaxValue-1)
 			{
 				Debug.LogWarning("Ambigious asset bundle variant chosen because there was no matching active variant: " + bundlesWithVariant[bestFitIndex]);
@@ -341,7 +318,7 @@ namespace AssetBundles
 				bundle.m_ReferencedCount++;
 				return true;
 			}
-//			Debug.LogError ("zys -------  LoadAssetBundleInternal " + assetBundleName);
+	
 			// @TODO: Do we need to consider the referenced count of WWWs?
 			// In the demo, we never have duplicate WWWs as we wait LoadAssetAsync()/LoadLevelAsync() to be finished before calling another LoadAssetAsync()/LoadLevelAsync().
 			// But in the real case, users can call LoadAssetAsync()/LoadLevelAsync() several times then wait them to be finished which might have duplicate WWWs.
@@ -350,16 +327,12 @@ namespace AssetBundles
 	
 			WWW download = null;
 			string url = m_BaseDownloadingURL + assetBundleName;
-			
-			Debug.LogError ("zys load start " + url );
+		
 			// For manifest assetbundle, always download it as we don't have hash for it.
 			if (isLoadingAssetBundleManifest)
 				download = new WWW(url);
-//				download = WWW.LoadFromCacheOrDownload(url,0); 
-//				AssetBundle.LoadFromFileAsync(url);
 			else
-//				download = WWW.LoadFromCacheOrDownload(url, m_AssetBundleManifest.GetAssetBundleHash(assetBundleName), 0); 
-				download = new WWW(url);//WWW.LoadFromCacheOrDownload(url, m_AssetBundleManifest.GetAssetBundleHash(assetBundleName), 0); 
+				download = WWW.LoadFromCacheOrDownload(url, m_AssetBundleManifest.GetAssetBundleHash(assetBundleName), 0); 
 	
 			m_DownloadingWWWs.Add(assetBundleName, download);
 	
@@ -463,7 +436,7 @@ namespace AssetBundles
 						keysToRemove.Add(keyValue.Key);
 						continue;
 					}
-					Debug.LogError ("zys ！+！+！+！！+  done liad  asset "+keyValue.Key);
+				
 					//Debug.Log("Downloading " + keyValue.Key + " is done at frame " + Time.frameCount);
 					m_LoadedAssetBundles.Add(keyValue.Key, new LoadedAssetBundle(download.assetBundle) );
 					keysToRemove.Add(keyValue.Key);
@@ -547,6 +520,7 @@ namespace AssetBundles
 			return operation;
 		}
 		/// <summary>
+        /// 自己添加的;
 		/// Loads the asset bundle async.
 		/// 只加载bundle;
 		/// </summary>
@@ -556,38 +530,34 @@ namespace AssetBundles
 			Log(LogType.Info, "Loading " +  assetBundleName + " bundle");
 
 			AssetBundleLoadOperationFull operation = null;
-//			#if UNITY_EDITOR
-//			if (SimulateAssetBundleInEditor)
-//			{
-//				string[] assetPaths = AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(assetBundleName);
-//				if (assetPaths.Length == 0)
-//				{
-//					Debug.LogError("There is no asset with name \"" +  "\" in " + assetBundleName);
-//					return null;
-//				}
-//
-//				// @TODO: Now we only get the main object from the first asset. Should consider type also.
-//				Object target = AssetDatabase.LoadMainAssetAtPath(assetPaths[0]);
-//				operation = new AssetBundleLoadAssetOperationSimulation (target);
-//			}
-//			else
-//			#endif
-//			{
-//			Debug.LogError ("zys -------  will RemapVariantName");
-				assetBundleName = RemapVariantName (assetBundleName);
+#if UNITY_EDITOR
+            if (SimulateAssetBundleInEditor)
+            {
+                string[] assetPaths = AssetDatabase.GetAssetPathsFromAssetBundle(assetBundleName);
+                if (assetPaths.Length == 0)
+                {
+                    Debug.LogError("There is no asset with name \"" + "\" in " + assetBundleName);
+                    return null;
+                }
+
+                // @TODO: Now we only get the main object from the first asset. Should consider type also.
+                Object target = AssetDatabase.LoadMainAssetAtPath(assetPaths[0]);
+                operation = new AssetBundleLoadOperationSimulation(assetBundleName);
+            }
+            else
+#endif
+            {
+                //			Debug.LogError ("zys -------  will RemapVariantName");
+                assetBundleName = RemapVariantName (assetBundleName);
 //				Debug.LogError ("zys -------  end remapvariant");
 				LoadAssetBundle (assetBundleName);
 //				Debug.LogError ("zys -------  end LoadAssetBundle  " + assetBundleName);
 				operation = new AssetBundleLoadOperationFull (assetBundleName);
 
 				m_InProgressOperations.Add (operation);
-//			}
+            }
 
-			return operation;
+            return operation;
 		}
-
 	} // End of AssetBundleManager.
-
-
-
 }

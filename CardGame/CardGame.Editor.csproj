@@ -119,6 +119,21 @@
     <Reference Include="Debuger">
       <HintPath>Assets\Plugins\Debuger.dll</HintPath>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Plugins\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>Assets\Plugins\DOTween\DOTween43.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>Assets\Plugins\DOTween\DOTween46.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween50">
+      <HintPath>Assets\Plugins\DOTween\DOTween50.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>Assets\Plugins\DOTween\Editor\DOTweenEditor.dll</HintPath>
+    </Reference>
     <Reference Include="Excel">
       <HintPath>Assets\Plugins\ExcelParser\Dll\Excel.dll</HintPath>
     </Reference>
@@ -127,6 +142,15 @@
     </Reference>
     <Reference Include="System.Data">
       <HintPath>Assets\Plugins\ExcelParser\Dll\System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="PBMessage">
+      <HintPath>Assets\Scripts\NET\protobuf\PBMessage.dll</HintPath>
+    </Reference>
+    <Reference Include="PBMessageSerializer">
+      <HintPath>Assets\Scripts\NET\protobuf\PBMessageSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>Assets\Scripts\NET\protobuf\protobuf-net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +174,12 @@
     <Compile Include="Assets\Editor\LZMPMenu.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Plugins\DOTween\DOTween.XML" />
+    <None Include="Assets\Plugins\DOTween\DOTween43.xml" />
+    <None Include="Assets\Plugins\DOTween\DOTween46.xml" />
+    <None Include="Assets\Plugins\DOTween\DOTween50.xml" />
+    <None Include="Assets\Plugins\DOTween\Editor\DOTweenEditor.XML" />
+    <None Include="Assets\Plugins\DOTween\readme.txt" />
     <None Include="Assets\Plugins\ExcelParser\Templete\MgrSetTemplete.txt" />
     <None Include="Assets\Plugins\ExcelParser\Templete\MgrTemplete.txt" />
   </ItemGroup>

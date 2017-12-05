@@ -225,47 +225,73 @@ namespace AssetBundles
 		}
 	}
 
-
+    /// <summary>
+    /// 自己添加的。;
+    /// </summary>
 	public class AssetBundleLoadOperationFull : AssetBundleLoadOperation
-	{
-		protected string 				m_AssetBundleName;
-		protected string 				m_DownloadingError;
-		protected AssetBundleRequest	m_Request = null;
-		protected bool isGetBundle = false;
+    {
+        protected string m_AssetBundleName;
+        protected string m_DownloadingError;
+        protected AssetBundleRequest m_Request = null;
+        protected bool isGetBundle = false;
 
-		public AssetBundleLoadOperationFull (string bundleName)
-		{
-			m_AssetBundleName = bundleName;
-		}
-
-
-		// Returns true if more Update calls are required.
-		public override bool Update ()
-		{
-			if (isGetBundle)
-				return false;
-
-			LoadedAssetBundle bundle = AssetBundleManager.GetLoadedAssetBundle (m_AssetBundleName, out m_DownloadingError);
-			Debuger.Log(" load res " + m_AssetBundleName);
-			if (bundle != null)
-			{
-				isGetBundle = true;
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
-
-		public override bool IsDone ()
-		{
-			// Return if meeting downloading error.
-			// m_DownloadingError might come from the dependency downloading.
+        public AssetBundleLoadOperationFull(string bundleName)
+        {
+            m_AssetBundleName = bundleName;
+        }
 
 
-			return isGetBundle;
-		}
-	}
-	
+        // Returns true if more Update calls are required.
+        public override bool Update()
+        {
+            if (isGetBundle)
+                return false;
+
+            LoadedAssetBundle bundle = AssetBundleManager.GetLoadedAssetBundle(m_AssetBundleName, out m_DownloadingError);
+            Debuger.Log(" load res " + m_AssetBundleName);
+            if (bundle != null)
+            {
+                isGetBundle = true;
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public override bool IsDone()
+        {
+            // Return if meeting downloading error.
+            // m_DownloadingError might come from the dependency downloading.
+
+
+            return isGetBundle;
+        }
+    }
+    /// <summary>
+    /// 自己加的一个空的加载bundle 的东西。 如果本地模式化直接给过。让后面去读本地文件;
+    /// </summary>
+    public class AssetBundleLoadOperationSimulation : AssetBundleLoadOperationFull
+    {
+        Object m_SimulatedObject;
+
+        public AssetBundleLoadOperationSimulation(string bundleName) : base(bundleName)
+        {
+           
+        }
+
+
+
+        public override bool Update()
+        {
+            return false;
+        }
+
+        public override bool IsDone()
+        {
+            return true;
+        }
+    }
+
 }

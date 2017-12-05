@@ -18,7 +18,7 @@ public class StartSenceManage : MonoBehaviour
         GameInit.Instance().FirstStartGame();
         StartCoroutine(LoadMainiFast());
         return;
-       
+
     }
 
     IEnumerator LoadMainiFast()
@@ -29,12 +29,27 @@ public class StartSenceManage : MonoBehaviour
         Debug.LogError("----zys----  back to laod");
 
         yield return StartCoroutine(LoadRootUI());
+        yield return StartCoroutine(LoadRootUI1());
+        GameInit.Instance().SetInitRootUI(staticCanvas, effCanvas);
+        yield return StartCoroutine(LoadLoadingUI());
+        yield return StartCoroutine(LoadStartSenceUI());
     }
 
     protected IEnumerator Initialize()
     {
-        // 
-        AssetBundleManager.SetSourceAssetBundleDirectory();
+        AssetBundleManager.IsLoadFromStream = true;
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+        AssetBundleManager.SetDevelopmentAssetBundleServer();
+#else
+		// Use the following code if AssetBundles are embedded in the project for example via StreamingAssets folder etc:
+        if(AssetBundleManager.IsLoadFromStream)
+        {    
+                AssetBundleManager.SetSourceAssetBundleDirectory();
+        }else{
+        AssetBundleManager.SetSourceAssetBundleURL(Application.dataPath + "/");
+        }
+		
+#endif
 
 
         Debug.LogError("----zys----   StartCoroutine");
@@ -44,37 +59,65 @@ public class StartSenceManage : MonoBehaviour
 
         Debug.LogError("----zys----  end load mainfalst");
     }
-
+    GameObject staticCanvas = null;
+    GameObject effCanvas = null;
     protected IEnumerator LoadRootUI()
     {
-        AssetBundleLoadOperationFull request_baseui = AssetBundleManager.LoadAssetBundleAsync("baseui.unity3d");
-        if (request_baseui == null)
+        AssetBundleLoadAssetOperation request = AssetBundleManager.LoadAssetAsync("baseui.unity3d", "StaticCanvas", typeof(GameObject));
+        if (request == null)
             yield break;
-        yield return StartCoroutine(request_baseui);
+        yield return StartCoroutine(request);
+  
+        // Get the asset.
+        GameObject prefab = request.GetAsset<GameObject>();
 
-        string m_DownloadingError;
-        LoadedAssetBundle bundle = AssetBundleManager.GetLoadedAssetBundle("baseui.unity3d", out m_DownloadingError);
-        if (bundle != null)
-        {
-            GameObject staticCanvas = null;
-            GameObject effCanvas = null;
-            AssetBundleRequest request2 = bundle.m_AssetBundle.LoadAssetAsync("StaticCanvas");
-            if (request2 != null)
-            {
-                GameObject staticCanvasPre = request2.asset as GameObject;
-                staticCanvas = GameObject.Instantiate(staticCanvasPre);
-            }
-            AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("EffCanvas");
-            if (request1 != null)
-            {
-                GameObject effCanvasPre = request1.asset as GameObject;
-                effCanvas = GameObject.Instantiate(effCanvasPre);
-            }
-            GameInit.Instance().SetInitRootUI(staticCanvas, effCanvas);
-            yield return StartCoroutine(LoadLoadingUI());
-            yield return StartCoroutine(LoadStartSenceUI());
-        }
+        if (prefab != null)
+            staticCanvas = GameObject.Instantiate(prefab);
     }
+
+    protected IEnumerator LoadRootUI1()
+    {
+        AssetBundleLoadAssetOperation request = AssetBundleManager.LoadAssetAsync("baseui.unity3d", "EffCanvas", typeof(GameObject));
+        if (request == null)
+            yield break;
+        yield return StartCoroutine(request);
+        // Get the asset.
+        GameObject prefab = request.GetAsset<GameObject>();
+
+        if (prefab != null)
+            effCanvas = GameObject.Instantiate(prefab);
+    }
+
+    //protected IEnumerator LoadRootUI()
+    //{
+    //    AssetBundleLoadOperationFull request_baseui = AssetBundleManager.LoadAssetBundleAsync("baseui.unity3d");
+    //    if (request_baseui == null)
+    //        yield break;
+    //    yield return StartCoroutine(request_baseui);
+
+    //    string m_DownloadingError;
+    //    LoadedAssetBundle bundle = AssetBundleManager.GetLoadedAssetBundle("baseui.unity3d", out m_DownloadingError);
+    //    if (bundle != null)
+    //    {
+    //        GameObject staticCanvas = null;
+    //        GameObject effCanvas = null;
+    //        AssetBundleRequest request2 = bundle.m_AssetBundle.LoadAssetAsync("StaticCanvas");
+    //        if (request2 != null)
+    //        {
+    //            GameObject staticCanvasPre = request2.asset as GameObject;
+    //            staticCanvas = GameObject.Instantiate(staticCanvasPre);
+    //        }
+    //        AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("EffCanvas");
+    //        if (request1 != null)
+    //        {
+    //            GameObject effCanvasPre = request1.asset as GameObject;
+    //            effCanvas = GameObject.Instantiate(effCanvasPre);
+    //        }
+    //        GameInit.Instance().SetInitRootUI(staticCanvas, effCanvas);
+    //        yield return StartCoroutine(LoadLoadingUI());
+    //        yield return StartCoroutine(LoadStartSenceUI());
+    //    }
+    //}
 
     protected IEnumerator LoadLoadingUI()
     {
@@ -102,7 +145,7 @@ public class StartSenceManage : MonoBehaviour
                 startUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
                 startUI.transform.localPosition = uiPre.transform.localPosition;
                 startUI.transform.localScale = uiPre.transform.localScale;
-                
+
                 startUI.AddComponent<LaunchUI>();
             }
         }
@@ -111,8 +154,8 @@ public class StartSenceManage : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-//		GTSenceManage.Instance ().InitUIBase ();
+        //		GTSenceManage.Instance ().InitUIBase ();
     }
 
-   
+
 }

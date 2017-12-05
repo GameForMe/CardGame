@@ -71,10 +71,11 @@ namespace AssetBundles
 		
 		static void Run ()
 		{
-			string pathToAssetServer = Path.Combine(Application.dataPath, "AssetBundleManager/Editor/AssetBundleServer.exe");
+			string pathToAssetServer = Path.Combine(Application.dataPath, "Plugins/AssetBundleManager/Editor/AssetBundleServer.exe");
 			string pathToApp = Application.dataPath.Substring(0, Application.dataPath.LastIndexOf('/'));
-	
-			KillRunningAssetBundleServer();
+            pathToAssetServer = pathToAssetServer.Replace("/", "\\");
+            pathToApp = pathToApp.Replace("/", "\\");
+            KillRunningAssetBundleServer();
 			
 			BuildScript.WriteServerURL();
 			

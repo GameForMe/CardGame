@@ -44,10 +44,10 @@ namespace AssetBundles
 						break;
 					}
 				}
-				downloadURL = "http://"+localIP+":7888/";
+				downloadURL = "http://"+localIP+":7888/"+ AssetBundleManager. ProjectName;
 			}
 			
-			string assetBundleManagerResourcesDirectory = "Assets/AssetBundleManager/Resources";
+			string assetBundleManagerResourcesDirectory = "Assets/Resources";
 			string assetBundleUrlPath = Path.Combine (assetBundleManagerResourcesDirectory, "AssetBundleServerURL.bytes");
 			Directory.CreateDirectory(assetBundleManagerResourcesDirectory);
 			File.WriteAllText(assetBundleUrlPath, downloadURL);
