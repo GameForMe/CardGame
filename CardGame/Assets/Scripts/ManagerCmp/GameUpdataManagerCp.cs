@@ -47,10 +47,11 @@ public class GameUpdataManagerCp : PreCtrlBase
     protected IEnumerator LoadLoginUI()
     {
         Debuger.LogError("start load login res");
-        AssetBundleLoadOperationFull request_uil = AssetBundleManager.LoadAssetBundleAsync("uilogin.unity3d");
-        if (request_uil == null)
+        AssetBundleLoadAssetOperation request =
+           AssetBundleManager.LoadAssetAsync("uilogin.unity3d", "UILogin", typeof(GameObject));
+        if (request == null)
             yield break;
-        yield return StartCoroutine(request_uil);
+        yield return StartCoroutine(request);
     }
 
     /// <summary>
@@ -75,6 +76,7 @@ public class GameUpdataManagerCp : PreCtrlBase
 
     IEnumerator LoadData()
     {
+        //如果需要更新资源的话 更新完后再搞 下面的;
         yield return StartCoroutine(LoadMainiFast());
 
         yield return new WaitForEndOfFrame();
@@ -92,7 +94,7 @@ public class GameUpdataManagerCp : PreCtrlBase
         // Don't destroy this gameObject as we depend on it to run the loading script.
 //		DontDestroyOnLoad(gameObject);
         yield return StartCoroutine(CopZIPFile(zipPath, saveZipPath));
-
+        ;
         yield return  StartCoroutine(LoadLoginUI());
        
         if (EndLoadCall != null)

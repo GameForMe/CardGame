@@ -207,7 +207,9 @@ public class GTSenceManage : MonoBehaviour
 
             startUI.AddComponent<LoginUI>();
         }
+        AssetBundleManager.UnloadAssetBundle("uilogin.unity3d");
     }
+
 
     /// <summary>
     /// Gotos the logon sence.
@@ -284,6 +286,7 @@ public class GTSenceManage : MonoBehaviour
 
             startUI.AddComponent<MainUI>();
         }
+        AssetBundleManager.UnloadAssetBundle("uimain.unity3d");
     }
 
     /// <summary>
@@ -300,31 +303,6 @@ public class GTSenceManage : MonoBehaviour
 
         StartCoroutine(AddmainUIToSence());
 
-//		string m_DownloadingError;
-//		LoadedAssetBundle bundle =
-//			AssetBundleManager.GetLoadedAssetBundle("uimain.unity3d", out m_DownloadingError);
-//		if (bundle != null)
-//		{
-//			AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("UIMain");
-//			if (request1 != null)
-//			{
-//				GameObject uiPre = request1.asset as GameObject;
-//				GameObject curUI = GameObject.Instantiate(uiPre);
-//				curUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
-//				curUI.transform.localPosition = uiPre.transform.localPosition;
-//				curUI.transform.localScale = uiPre.transform.localScale;
-//                
-//				curUI.AddComponent<MainUI>();
-//			}
-//		}
-
-//		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/MainUI/Prefabs/MainNewUIPanel");
-//
-//		if (OriginalObj != null) {
-////			MainNewUIView diaSrc = InstantiateObjFun.AddOneObjToParent<MainNewUIView> (OriginalObj, RootTransform);
-//////			MainUIView diaSrc = InstantiateObjFun.AddOneObjToParent<MainUIView> (OriginalObj, RootTransform);
-////			curSence = diaSrc;
-//		}
     }
 
     #endregion
@@ -483,6 +461,7 @@ public class GTSenceManage : MonoBehaviour
                 addCall(precCtrl);
             }
         }
+        AssetBundleManager.UnloadAssetBundle("uiloading.unity3d");
     }
 
 
@@ -495,76 +474,7 @@ public class GTSenceManage : MonoBehaviour
         params object[] args) where T : PreCtrlBase
     {
         StartCoroutine(AddLoadingUI<T>(endCall, addCall, args));
-//		AssetBundleLoadAssetOperation request = AssetBundleManager.LoadAssetAsync("uiloading.unity3d", "uiloading", typeof(GameObject));
-//		if (request != null)
-//		{
-//			StartCoroutine(request);
-//			GameObject prefab = request.GetAsset<GameObject>();
-//			if (prefab != null)
-//			{
-//				GameObject startUI = GameObject.Instantiate(prefab);
-//				startUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
-//				startUI.transform.localPosition = prefab.transform.localPosition;
-//				startUI.transform.localScale = prefab.transform.localScale;
-//
-//				startUI.AddComponent<LoadingUI>();
-//			}
-//		}
-
-//		string m_DownloadingError;
-//		LoadedAssetBundle bundle = AssetBundleManager.GetLoadedAssetBundle("uiloading.unity3d", out m_DownloadingError);
-//		if (bundle != null)
-//		{
-////			GameObject uiloading = null;
-//			AssetBundleRequest request = bundle.m_AssetBundle.LoadAssetAsync("uiloading");
-//			if (request != null)
-//			{
-//				GameObject OriginalObj = request.asset as GameObject;
-////				uiloading = GameObject.Instantiate(uiloadingPre);
-//				
-//				curSenceType = UISenceType.loadingUISence;
-//				if(LoadingDataUICS != null )
-//				{
-//					isLoadingData.Clear ();
-//					LoadingDataUICS.CloseUI ();
-//				}
-//				if (curSence != null) {
-//					curSence.CloseUI ();
-//				}
-//				LoadingUI diaSrc = InstantiateObjFun.AddOneObjToParent<LoadingUI> (OriginalObj, GameInit.Instance().StaticCanvas.transform);	
-//				curSence = diaSrc;
-//
-//				T precCtrl = diaSrc.gameObject.AddComponent<T> ();
-//				precCtrl.loadingUICS = diaSrc;
-//				precCtrl.EndLoadCall = endCall;
-//				precCtrl.StarLoadData (args);
-//				return  precCtrl;
-//			}
-//		}
-
-
-//		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/Loading/Prefabs/LoadingUI");
-//
-//		if (OriginalObj != null) {
-//			curSenceType = UISenceType.loadingUISence;
-//			if(LoadingDataUICS != null )
-//			{
-//				isLoadingData.Clear ();
-//				LoadingDataUICS.CloseUI ();
-//			}
-//			if (curSence != null) {
-//				curSence.CloseUI ();
-//			}
-//			LoadingUI diaSrc = InstantiateObjFun.AddOneObjToParent<LoadingUI> (OriginalObj, RootTransform);	
-//			curSence = diaSrc;
-//
-//			T precCtrl = diaSrc.gameObject.AddComponent<T> ();
-//			precCtrl.loadingUICS = diaSrc;
-//			precCtrl.EndLoadCall = endCall;
-//			precCtrl.StarLoadData (args);
-//			return  precCtrl;
-//		}
-//		return null;
+//	
     }
 
     #endregion

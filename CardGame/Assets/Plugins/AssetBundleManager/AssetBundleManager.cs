@@ -34,7 +34,12 @@ namespace AssetBundles
 		}
 	}
 	
-	// Class takes care of loading assetBundle and its dependencies automatically, loading variants automatically.
+	// Class takes care of loading assetBundle and its dependencies automatically, loading variants automatically. 
+    /// <summary>
+    /// 前置逻辑占着引用不放;
+    /// 后面用的及时释放;
+    /// 离开一个场景的时候把前置逻辑占用的释放掉;
+    /// </summary>
 	public class AssetBundleManager : MonoBehaviour
 	{
         /// <summary>
