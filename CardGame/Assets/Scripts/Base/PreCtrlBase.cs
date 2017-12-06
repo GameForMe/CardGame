@@ -10,6 +10,7 @@ public class PreCtrlBase :MonoBehaviour
 	public LoadingUI loadingUICS;
 
 	public delegate void EndLoading();
+	public delegate void EndAddLoadingUI(PreCtrlBase ctrl);
 	/// <summary>
 	/// The end load call.
 	/// 执行完回调才函数;

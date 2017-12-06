@@ -210,18 +210,18 @@ public class LoadingController
 	}
 
 
-	/// <summary>
-	/// Adds the loading U.
-	/// 在loading界面添加 显示的loadingUI;
-	/// </summary>
-	/// <param name="endCall">End call.</param>
-	LoadingUI AddLoadingUI<T> (PreCtrlBase.EndLoading endCall, int param = -1) where T : PreCtrlBase
-	{
-		loadingPreCS = GTSenceManage.Instance().AddLoadingUIToSence<T> (endCall,param);
-//		loadingPreCS
-		LoadingUI loadingCS = loadingPreCS.gameObject.GetComponent<LoadingUI> ();
-		return loadingCS;
-	}
+//	/// <summary>
+//	/// Adds the loading U.
+//	/// 在loading界面添加 显示的loadingUI;
+//	/// </summary>
+//	/// <param name="endCall">End call.</param>
+//	LoadingUI AddLoadingUI<T> (PreCtrlBase.EndLoading endCall, int param = -1) where T : PreCtrlBase
+//	{
+//		GTSenceManage.Instance().AddLoadingUIToSence<T> (endCall,param);
+////		loadingPreCS
+//		LoadingUI loadingCS = loadingPreCS.gameObject.GetComponent<LoadingUI> ();
+//		return loadingCS;
+//	}
 
 	/// <summary>
 	/// Forces the go scene.

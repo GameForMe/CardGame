@@ -77,7 +77,7 @@ public class LaunchUI : MonoBehaviour
     /// </summary>
     void GotoMain()
     {
-        GameUpdataManagerCp resCheckCP = GTSenceManage.Instance().AddLoadingUIToSence<GameUpdataManagerCp>(EndDealOp_ScenePreCtrl);
+        GTSenceManage.Instance().AddLoadingUIToSence<GameUpdataManagerCp>(EndDealOp_ScenePreCtrl,EndAddLoadingUI);
         //添加loading
 //        GamePreCtrl preCtrl = GTSenceManage.Instance().AddLoadingUIToSence<GamePreCtrl>(EndDealOp_ScenePreCtrl);
 //		LoadingController.GetInstance ().GotoOneSence (SenceType.mainSence);
@@ -85,6 +85,11 @@ public class LaunchUI : MonoBehaviour
 //		LoadingController.GetInstance ().LoadSenceAsyncDone(); = "main";
 //		Application.LoadLevelAsync("loading");
         //		Application.LoadLevelAdditiveAsync ("yourScene"); //不删除原场景 情况下  慎用.
+    }
+
+    void EndAddLoadingUI(PreCtrlBase ctrl)
+    {
+        
     }
 
     void EndDealOp_ScenePreCtrl()

@@ -16,7 +16,7 @@ public class PreCtrlMainScene :PreCtrlBase
 
 	public override void StarLoadData(params object[] args)
 	{
-		StartCoroutine(LoadLoginUI());
+		StartCoroutine(LoadMainUI());
 		
 		if (EndLoadCall != null) {
 			EndLoadCall ();
@@ -25,12 +25,16 @@ public class PreCtrlMainScene :PreCtrlBase
 		}
 	}
 	
-	protected IEnumerator LoadLoginUI()
+	protected IEnumerator LoadMainUI()
 	{
-		AssetBundleLoadOperationFull request_uil = AssetBundleManager.LoadAssetBundleAsync("uimain.unity3d");
-		if (request_uil == null)
+		AssetBundleLoadAssetOperation request = AssetBundleManager.LoadAssetAsync("uimain.unity3d", "uimain", typeof(GameObject));
+		if (request == null)
 			yield break;
-		yield return StartCoroutine(request_uil);
+		yield return StartCoroutine(request);
+//		AssetBundleLoadOperationFull request_uil = AssetBundleManager.LoadAssetBundleAsync("uimain.unity3d");
+//		if (request_uil == null)
+//			yield break;
+//		yield return StartCoroutine(request_uil);
 	}
 
 }
