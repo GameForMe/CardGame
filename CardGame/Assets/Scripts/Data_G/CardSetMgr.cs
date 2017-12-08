@@ -5,3 +5,10 @@ public partial class CardSetMgr
 {
  
 }
+
+public enum CardType
+{
+    Hero,
+    Equip,
+    Monster
+}
