@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 登陆界面。暂时只有开始游戏  没有用户注册等;
 /// </summary>
-public class LoginUI : MonoBehaviour {
+public class LoginUI : BaseSence {
 	
 	 void Awake()
 	 {

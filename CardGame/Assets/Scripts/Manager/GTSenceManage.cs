@@ -201,7 +201,7 @@ public class GTSenceManage : MonoBehaviour
         if (prefab != null)
         {
             GameObject startUI = GameObject.Instantiate(prefab);
-            startUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
+            startUI.transform.parent = GTUIManager.Instance().StaticCanvas.transform;
             startUI.transform.localPosition = prefab.transform.localPosition;
             startUI.transform.localScale = prefab.transform.localScale;
 
@@ -220,32 +220,6 @@ public class GTSenceManage : MonoBehaviour
         curSenceType = UISenceType.logonUISence;
 
         StartCoroutine(AddLoginUIToSence());
-//		string m_DownloadingError;
-//		LoadedAssetBundle bundle =
-//			AssetBundleManager.GetLoadedAssetBundle("uilogin.unity3d", out m_DownloadingError);
-//		if (bundle != null)
-//		{
-//			AssetBundleRequest request1 = bundle.m_AssetBundle.LoadAssetAsync("UILogin");
-//			if (request1 != null)
-//			{
-//				GameObject uiPre = request1.asset as GameObject;
-//				GameObject curUI = GameObject.Instantiate(uiPre);
-//				curUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
-//				curUI.transform.localPosition = uiPre.transform.localPosition;
-//				curUI.transform.localScale = uiPre.transform.localScale;
-//                
-//				curUI.AddComponent<LoginUI>();
-////				Destroy(curUI.GetComponent("qiemove"));//删除绑定脚本  
-//			}
-//		}
-
-//		GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/Logon/Prefabs/LogonUI");
-//
-//		if (OriginalObj != null) {
-//
-////			LogonUI diaSrc = InstantiateObjFun.AddOneObjToParent<LogonUI> (OriginalObj, RootTransform);		
-////			curSence = diaSrc;
-//		}
     }
 
     #endregion
@@ -269,26 +243,6 @@ public class GTSenceManage : MonoBehaviour
         AddLoadingUIToSence<PreCtrlMainScene>(StartOpenMainUISence, null);
     }
 
-    protected IEnumerator AddmainUIToSence()
-    {
-        AssetBundleLoadAssetOperation request =
-            AssetBundleManager.LoadAssetAsync("uimain.unity3d", "uimain", typeof(GameObject));
-        if (request == null)
-            yield break;
-        yield return StartCoroutine(request);
-        GameObject prefab = request.GetAsset<GameObject>();
-        if (prefab != null)
-        {
-            GameObject startUI = GameObject.Instantiate(prefab);
-            startUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
-            startUI.transform.localPosition = prefab.transform.localPosition;
-            startUI.transform.localScale = prefab.transform.localScale;
-
-            startUI.AddComponent<MainUI>();
-        }
-        AssetBundleManager.UnloadAssetBundle("uimain.unity3d");
-    }
-
     /// <summary>
     /// Starts the open main user interface sence.
     /// 直接加载主场景到界面上;
@@ -301,7 +255,11 @@ public class GTSenceManage : MonoBehaviour
         }
         curSenceType = UISenceType.mainUISence;
 
-        StartCoroutine(AddmainUIToSence());
+        StartCoroutine(GTUIManager.Instance().AddUiToCanvas("uimain.unity3d","uimain",true, (GameObject obj) =>
+        {
+            MainUI panel = obj.AddComponent<MainUI>();
+        }));
+//        StartCoroutine(AddmainUIToSence());
 
     }
 
@@ -445,7 +403,7 @@ public class GTSenceManage : MonoBehaviour
         if (prefab != null)
         {
             GameObject startUI = GameObject.Instantiate(prefab);
-            startUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
+            startUI.transform.parent = GTUIManager.Instance().StaticCanvas.transform;
             startUI.transform.localPosition = prefab.transform.localPosition;
             startUI.transform.localScale = prefab.transform.localScale;
 

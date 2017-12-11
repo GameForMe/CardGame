@@ -1,5 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using AssetBundles;
 
 public class GTUIManager : MonoBehaviour
 {
@@ -21,17 +23,7 @@ public class GTUIManager : MonoBehaviour
 		return _instance;
 	}
 
-	BaseUI RootParentUI;
-	MainRootUI rootTrans;
 
-	public MainRootUI RootTrans {
-		get {
-			return rootTrans;
-		}
-		set {
-			rootTrans = value;
-		}
-	}
 	/// <summary>
 	/// Gets the manager base root.
 	/// 获取ui管理器的 跟节点l
@@ -42,41 +34,47 @@ public class GTUIManager : MonoBehaviour
 		return m_gameObject.transform;
 	}
 
-
-
-	/// <summary>
-	/// Inits the user interface base.
-	/// 讲根目录显示在舞台上;
-	/// </summary>
-	public void InitUIBase ()
+	public  Transform StaticCanvas { get; set;} 
+	public  Transform EffCanvas { get; set;} 
+	
+	public void SetInitRootUI(GameObject staticObj, GameObject effObj)
 	{
-		if (rootTrans == null) {
-			GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/GUIUI");
-//			GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/GUIUI_Lower");
-
-			if (OriginalObj != null) {
-				GameObject temObj = GameObject.Instantiate (OriginalObj) as GameObject;
-				temObj.name = "RootUI";
-				DontDestroyOnLoad (temObj);
-
-				if (temObj.GetComponent<MainRootUI> () != null) {
-					RootParentUI = temObj.GetComponent<BaseUI> ();
-				} else {
-					RootParentUI = temObj.AddComponent<BaseUI> ();
-				}
-//				Transform find = RootParentUI.transform.Find ("Camera");
-//				rootTrans = find.gameObject.AddComponent<MainRootUI> ();
-
-				rootTrans = RootParentUI.gameObject.AddComponent<MainRootUI> ();
-			}
-		}
-
-		//这里可以给不同的管理器挂载不同的跟节点;
-		GTSenceManage.Instance ().RootTrans = RootTrans;
-		GTWindowManage.Instance ().RootTrans = RootTrans;
-		GTMessageTipManage.Instance().RootTrans = RootTrans;
-//		GuideModel.Instance().RootTrans = RootTrans;
+		StaticCanvas = staticObj.transform;
+		EffCanvas = effObj.transform;
 	}
+	
+	public delegate void EndAddUiToCanvas(GameObject obj);
+	/// <summary>
+	/// 添加预设到画布上;
+	/// </summary>
+	/// <param name="assetName"></param>
+	/// <param name="prefabName"></param>
+	/// <param name="isStaticUI"></param>
+	/// <param name="endCall"></param>
+	/// <returns></returns>
+	public IEnumerator AddUiToCanvas(string assetName,string prefabName,bool isStaticUI,EndAddUiToCanvas  endCall)
+	{
+		AssetBundleLoadAssetOperation request =
+			AssetBundleManager.LoadAssetAsync(assetName, prefabName, typeof(GameObject));
+		if (request == null)
+			yield break;
+		yield return StartCoroutine(request);
+		GameObject prefab = request.GetAsset<GameObject>();
+		GameObject startUI = null;
+		if (prefab != null)
+		{
+			startUI = GameObject.Instantiate(prefab);
+			startUI.transform.parent = isStaticUI ? StaticCanvas : EffCanvas;
+			startUI.transform.localPosition = prefab.transform.localPosition;
+			startUI.transform.localScale = prefab.transform.localScale;
+		}
+		AssetBundleManager.UnloadAssetBundle("assetName");
+		if (endCall != null)
+		{
+			endCall(startUI);
+		}
+	}
+
 
 }
 

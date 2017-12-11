@@ -403,35 +403,44 @@ namespace ExcelParser
                 IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
 
                 DataSet result = excelReader.AsDataSet();
-                int columns = result.Tables[0].Columns.Count;
-                int rows = result.Tables[0].Rows.Count;
-
-
-                StringBuilder txtBuilder = new StringBuilder();
-
-                for (int r = 0; r < rows; r++)
+                try
                 {
-                    for (int c = 0; c < columns; c++)
+                    int columns = result.Tables[0].Columns.Count;
+                    int rows = result.Tables[0].Rows.Count;
+
+
+                    StringBuilder txtBuilder = new StringBuilder();
+
+                    for (int r = 0; r < rows; r++)
                     {
-                        txtBuilder.Append(result.Tables[0].Rows[r][c].ToString()).Append("\t");
+                        for (int c = 0; c < columns; c++)
+                        {
+                            txtBuilder.Append(result.Tables[0].Rows[r][c].ToString()).Append("\t");
+                        }
+                        txtBuilder.Append("\n");
                     }
-                    txtBuilder.Append("\n");
+
+
+                    StreamWriter steamWriter = new StreamWriter(targetFileStream);
+
+                    steamWriter.Write(txtBuilder.ToString());
+
+
+                    steamWriter.Close();
+                    stream.Close();
+                    targetFileStream.Close();
+
+                    if (autoGenerateClass)
+                    {
+                        GenerateAllClass(targetFile);
+                    }
                 }
-
-
-                StreamWriter steamWriter = new StreamWriter(targetFileStream);
-
-                steamWriter.Write(txtBuilder.ToString());
-
-
-                steamWriter.Close();
-                stream.Close();
-                targetFileStream.Close();
-
-                if (autoGenerateClass)
+                catch (Exception e)
                 {
-                    GenerateAllClass(targetFile);
+                    Console.WriteLine(e);
+                    throw;
                 }
+          
             }
         }
     }

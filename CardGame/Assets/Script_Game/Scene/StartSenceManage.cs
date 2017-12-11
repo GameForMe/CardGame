@@ -34,7 +34,7 @@ public class StartSenceManage : MonoBehaviour
         AssetBundleManager.UnloadAssetBundle("baseui.unity3d");
         AssetBundleManager.UnloadAssetBundle("baseui.unity3d");
 
-        GameInit.Instance().SetInitRootUI(staticCanvas, effCanvas);
+        GTUIManager.Instance().SetInitRootUI(staticCanvas, effCanvas);
         yield return StartCoroutine(LoadLoadingUI());
         yield return StartCoroutine(LoadStartSenceUI());
     }
@@ -114,7 +114,7 @@ public class StartSenceManage : MonoBehaviour
         if (prefab != null)
         {
             GameObject startUI = GameObject.Instantiate(prefab);
-            startUI.transform.parent = GameInit.Instance().StaticCanvas.transform;
+            startUI.transform.parent = GTUIManager.Instance().StaticCanvas.transform;
             startUI.transform.localPosition = prefab.transform.localPosition;
             startUI.transform.localScale = prefab.transform.localScale;
 

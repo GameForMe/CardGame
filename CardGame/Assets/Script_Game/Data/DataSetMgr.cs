@@ -16,7 +16,7 @@ public partial class DataSetMgr {
 	public static void InitDataTab ()
 	{
 		//在此处自动插入各个数据集入口;
-		//Start        SkillSetMgr.instance.loadDataFile(prePath);        CardSetMgr.instance.loadDataFile(prePath);
+		//Start        SkillSetMgr.instance.loadDataFile(prePath);        ChaptersSetMgr.instance.loadDataFile(prePath);        CardSetMgr.instance.loadDataFile(prePath);
 		//End
 	}
 

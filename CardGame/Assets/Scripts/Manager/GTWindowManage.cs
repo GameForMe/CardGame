@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// GameTool window manage.
 ///  大场景切换除了loaidng 全干掉;
 /// </summary>
-public class GTWindowManage
+public class GTWindowManage :MonoBehaviour
 {
 
     private static GameObject m_gameObject;
@@ -150,6 +150,19 @@ public class GTWindowManage
         }
     }
 
+
+    #endregion
+
+    #region  卡牌列表界面
+
+    public void OpenPanel_CardList()
+    {
+        GTUIManager.Instance().AddUiToCanvas("panel_cardlist.unity3d","Panel_CardList",true, (GameObject obj) =>
+        {
+            Panel_CardList panel = obj.AddComponent<Panel_CardList>();
+        });
+//        StartCoroutine(AddmainUIToSence());
+    }
 
     #endregion
     
