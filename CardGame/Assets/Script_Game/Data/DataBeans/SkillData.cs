@@ -5,7 +5,7 @@ using ExcelParser;
 /// 自动生成类。不要修改
 /// 数据表的第一列为key
 /// </summary>
-public class SkillBean : IDataBean {
+public class SkillData : IDataBean {
 
     private int skillID;
     /// <summary>
@@ -33,11 +33,24 @@ public class SkillBean : IDataBean {
         }
     }
 
-    private int isMustCast;
+    private string des;
+    /// <summary>
+    /// Des
+    /// </summary>
+    public string Des {
+        get {
+             return des;
+        }
+        set {
+             des = value;
+        }
+    }
+
+    private bool isMustCast;
     /// <summary>
     /// 是否必须释放
     /// </summary>
-    public int IsMustCast {
+    public bool IsMustCast {
         get {
              return isMustCast;
         }
@@ -46,42 +59,16 @@ public class SkillBean : IDataBean {
         }
     }
 
-    private int isBuff;
+    private bool isBuff;
     /// <summary>
-    /// IsBuff
+    /// buff 当前回合有效，神器相当于每回合放一次
     /// </summary>
-    public int IsBuff {
+    public bool IsBuff {
         get {
              return isBuff;
         }
         set {
              isBuff = value;
-        }
-    }
-
-    private int castCondition;
-    /// <summary>
-    /// CastCondition
-    /// </summary>
-    public int CastCondition {
-        get {
-             return castCondition;
-        }
-        set {
-             castCondition = value;
-        }
-    }
-
-    private int activeCondition;
-    /// <summary>
-    /// 激活条件
-    /// </summary>
-    public int ActiveCondition {
-        get {
-             return activeCondition;
-        }
-        set {
-             activeCondition = value;
         }
     }
 
@@ -111,19 +98,6 @@ public class SkillBean : IDataBean {
         }
     }
 
-    private int effectValue2;
-    /// <summary>
-    /// EffectValue2
-    /// </summary>
-    public int EffectValue2 {
-        get {
-             return effectValue2;
-        }
-        set {
-             effectValue2 = value;
-        }
-    }
-
     private int specifyTarget;
     /// <summary>
     /// SpecifyTarget
@@ -134,6 +108,19 @@ public class SkillBean : IDataBean {
         }
         set {
              specifyTarget = value;
+        }
+    }
+
+    private int effectValue2;
+    /// <summary>
+    /// EffectValue2
+    /// </summary>
+    public int EffectValue2 {
+        get {
+             return effectValue2;
+        }
+        set {
+             effectValue2 = value;
         }
     }
 
@@ -150,16 +137,55 @@ public class SkillBean : IDataBean {
         }
     }
 
-    private string des;
+    private int maxActiveNum;
     /// <summary>
-    /// Des
+    /// 每回合最大次数
     /// </summary>
-    public string Des {
+    public int MaxActiveNum {
         get {
-             return des;
+             return maxActiveNum;
         }
         set {
-             des = value;
+             maxActiveNum = value;
+        }
+    }
+
+    private int activeCondition;
+    /// <summary>
+    /// 激活条件
+    /// </summary>
+    public int ActiveCondition {
+        get {
+             return activeCondition;
+        }
+        set {
+             activeCondition = value;
+        }
+    }
+
+    private int childSkillID;
+    /// <summary>
+    /// 连锁技能，连锁的在卡牌上是一行
+    /// </summary>
+    public int ChildSkillID {
+        get {
+             return childSkillID;
+        }
+        set {
+             childSkillID = value;
+        }
+    }
+
+    private int isMustChildSkillID;
+    /// <summary>
+    /// 是否必须连锁
+    /// </summary>
+    public int IsMustChildSkillID {
+        get {
+             return isMustChildSkillID;
+        }
+        set {
+             isMustChildSkillID = value;
         }
     }
 
@@ -173,6 +199,19 @@ public class SkillBean : IDataBean {
         }
         set {
              desMore = value;
+        }
+    }
+
+    private int castCondition;
+    /// <summary>
+    /// CastCondition
+    /// </summary>
+    public int CastCondition {
+        get {
+             return castCondition;
+        }
+        set {
+             castCondition = value;
         }
     }
 }

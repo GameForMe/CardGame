@@ -32,7 +32,6 @@ namespace ExcelParser
         }
 
 
-
         public Dictionary<object, IDataBean> idDataDic = new Dictionary<object, IDataBean>();
 
 
@@ -41,18 +40,18 @@ namespace ExcelParser
         /// <summary>
         /// Inits the data.
         /// </summary>
-        public void loadDataFile(string prePath )
+        public void loadDataFile(string prePath)
         {
             if (prePath == null)
             {
-                throw new Exception("没有根据平台指定前置 路径 "); 
+                throw new Exception("没有根据平台指定前置 路径 ");
             }
             if (isInit)
             {
                 return;
             }
             //这个路径应当在 是解压之后存放的  Application.persistentDataPath 中  ;
-            string filePath = prePath + "/"+GetXlsxPath();
+            string filePath = prePath + "/" + GetXlsxPath();
             Type dataBeanType = GetBeanType();
 
 //            FileInfo info = new FileInfo (filePath);
@@ -66,67 +65,100 @@ namespace ExcelParser
             //第一行是属性类型
             //第二行是注释
             //第三行才是 标题
-            dataTxt = dataTxt.Replace("\r", "");
-            string[] hList = dataTxt.Split('\n');
-            if (hList.Length > 3)
+            try
             {
-                string[] types = hList[0].Split('\t');
-                string[] titles = hList[2].Split('\t');
-
-
-                for (int col = 3; col < hList.Length; col++)
+                dataTxt = dataTxt.Replace("\r", "");
+                string[] hList = dataTxt.Split('\n');
+                if (hList.Length > 3)
                 {
-                    IDataBean dataBean = null;
-                    object key = null;
+                    string[] types = hList[0].Split('\t');
+                    string[] titles = hList[2].Split('\t');
 
-                    string[] vals = hList[col].Split('\t');
 
-                    if (vals.Length != titles.Length)
+                    for (int col = 3; col < hList.Length; col++)
                     {
-                        continue;
-                    }
+                        IDataBean dataBean = null;
+                        object key = null;
 
+                        string[] vals = hList[col].Split('\t');
 
-                    dataBean = (IDataBean) Activator.CreateInstance(dataBeanType);
-                    for (int row = 0; row < titles.Length; row++)
-                    {
-                        string titleName = titles[row];
-
-                        if (string.IsNullOrEmpty(titleName))
+                        if (vals.Length != titles.Length)
                         {
                             continue;
                         }
 
-                        string typeStr = types[row];
-                        string valStr = vals[row];
 
-
-                        if (string.IsNullOrEmpty(typeStr))
+                        dataBean = (IDataBean) Activator.CreateInstance(dataBeanType);
+                        for (int row = 0; row < titles.Length; row++)
                         {
-                            continue;
+                            string titleName = titles[row];
+
+                            if (string.IsNullOrEmpty(titleName))
+                            {
+                                continue;
+                            }
+
+                            string typeStr = types[row];
+                            string valStr = vals[row];
+
+
+                            if (string.IsNullOrEmpty(typeStr))
+                            {
+                                continue;
+                            }
+
+                            string propertyName = titleName.Substring(0, 1).ToUpper() + titleName.Substring(1);
+
+                            PropertyInfo prop =
+                                dataBeanType.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
+
+                            try
+                            {
+                                if (prop.PropertyType.Name != "string" && valStr =="")
+                                {
+                                    valStr = "0";
+                                }
+                                if (prop.PropertyType.Name == "Boolean" && valStr != "FALSE" && valStr != "TRUE")
+                                {
+                                    if (valStr == "" || valStr == "0")
+                                    {
+                                        valStr = "FALSE";
+                                    }
+                                    else
+                                    {
+                                        valStr = "TRUE";
+                                    }
+                           
+                                }
+                                object val = Convert.ChangeType(valStr, prop.PropertyType);
+
+                                prop.SetValue(dataBean, val, null);
+                                //set dictionary id
+                                if (row == 0)
+                                {
+                                    key = val;
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Debuger.LogError("waite prop error -->> " + e);
+                                
+                            }
+           
+
+                          
                         }
 
-                        string propertyName = titleName.Substring(0, 1).ToUpper() + titleName.Substring(1);
-
-                        PropertyInfo prop =
-                            dataBeanType.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
-
-                        object val = Convert.ChangeType(valStr, prop.PropertyType);
-
-                        prop.SetValue(dataBean, val, null);
-
-                        //set dictionary id
-                        if (row == 0)
+                        if (dataBean != null)
                         {
-                            key = val;
+                            idDataDic.Add(key, dataBean);
                         }
-                    }
-
-                    if (dataBean != null)
-                    {
-                        idDataDic.Add(key, dataBean);
                     }
                 }
+            }
+            catch (Exception exe)
+            {
+                Debuger.LogError("read txt tab error -->> " + exe);
             }
 
             isInit = true;

@@ -15,17 +15,17 @@ public partial class SkillSetMgr : DataMgrBase<SkillSetMgr> {
 
 	protected override System.Type GetBeanType ()
 	{
-		return typeof(SkillBean);
+		return typeof(SkillData);
 	}
 
 
-	public SkillBean GetDataById(object id)
+	public SkillData GetDataById(object id)
 	{
 		IDataBean dataBean = _GetDataById(id);
 
 		if(dataBean!=null)
 		{
-			return (SkillBean)dataBean;
+			return (SkillData)dataBean;
 		}else{
 			return null;
 		}

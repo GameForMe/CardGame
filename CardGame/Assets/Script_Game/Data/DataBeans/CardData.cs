@@ -5,7 +5,7 @@ using ExcelParser;
 /// 自动生成类。不要修改
 /// 数据表的第一列为key
 /// </summary>
-public class CardBean : IDataBean {
+public class CardData : IDataBean {
 
     private int cardID;
     /// <summary>
@@ -160,6 +160,19 @@ public class CardBean : IDataBean {
         }
         set {
              des = value;
+        }
+    }
+
+    private string nameDes;
+    /// <summary>
+    /// NameDes
+    /// </summary>
+    public string NameDes {
+        get {
+             return nameDes;
+        }
+        set {
+             nameDes = value;
         }
     }
 }

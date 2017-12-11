@@ -15,17 +15,17 @@ public partial class {0}SetMgr : DataMgrBase<{0}SetMgr> {
 
 	protected override System.Type GetBeanType ()
 	{
-		return typeof({0}Bean);
+		return typeof({0}Data);
 	}
 
 
-	public {0}Bean GetDataById(object id)
+	public {0}Data GetDataById(object id)
 	{
 		IDataBean dataBean = _GetDataById(id);
 
 		if(dataBean!=null)
 		{
-			return ({0}Bean)dataBean;
+			return ({0}Data)dataBean;
 		}else{
 			return null;
 		}

@@ -15,17 +15,17 @@ public partial class CardSetMgr : DataMgrBase<CardSetMgr> {
 
 	protected override System.Type GetBeanType ()
 	{
-		return typeof(CardBean);
+		return typeof(CardData);
 	}
 
 
-	public CardBean GetDataById(object id)
+	public CardData GetDataById(object id)
 	{
 		IDataBean dataBean = _GetDataById(id);
 
 		if(dataBean!=null)
 		{
-			return (CardBean)dataBean;
+			return (CardData)dataBean;
 		}else{
 			return null;
 		}

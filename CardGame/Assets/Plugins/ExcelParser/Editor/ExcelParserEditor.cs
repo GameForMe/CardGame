@@ -117,7 +117,7 @@ namespace ExcelParser
 
                 string typeStr = types[i].ToLower();
 
-                if (typeStr == "string" || typeStr == "int" || typeStr == "float")
+                if (typeStr == "string" || typeStr == "int" || typeStr == "float" || typeStr == "bool"  )
                 {
                     titleData.type = typeStr;
                 }
@@ -188,7 +188,7 @@ namespace ExcelParser
                 outfile.WriteLine("/// 自动生成类。不要修改");
                 outfile.WriteLine("/// 数据表的第一列为key");
                 outfile.WriteLine("/// </summary>");
-                outfile.WriteLine("public class " + fileName + "Bean : IDataBean {");
+                outfile.WriteLine("public class " + fileName + "Data : IDataBean {");
 //                outfile.WriteLine(" ");
 
                 for (int i = 0; i < titles.Count; i++)

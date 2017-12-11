@@ -89,6 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224799292915798078}
   - component: {fileID: 225036883838089218}
+  - component: {fileID: 114480025791221672}
   m_Layer: 5
   m_Name: UIMain
   m_TagString: Untagged
@@ -298,6 +299,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u5361\u7EC4"
+--- !u!114 &114480025791221672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1724037142461932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 844453e3678b14df5ae24e59a2b9729e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+  - key: Btn_PVE
+    gameObject: {fileID: 1993409828536132}
 --- !u!114 &114504392636171592
 MonoBehaviour:
   m_ObjectHideFlags: 1
