@@ -7,7 +7,7 @@ using DG.Tweening;
 /// <summary>
 /// 闪屏;
 /// </summary>
-public class LaunchUI : MonoBehaviour
+public class LaunchUI : BaseSence
 {
     private Image LogoSp;
 
@@ -77,7 +77,7 @@ public class LaunchUI : MonoBehaviour
     /// </summary>
     void GotoMain()
     {
-        GTSenceManage.Instance().AddLoadingUIToSence<GameUpdataManagerCp>(EndDealOp_ScenePreCtrl,EndAddLoadingUI);
+        GTSenceManage.Instance().AddLoadingUIToSence<GameUpdataManagerCp>(true,EndDealOp_ScenePreCtrl,EndAddLoadingUI);
         //添加loading
 //        GamePreCtrl preCtrl = GTSenceManage.Instance().AddLoadingUIToSence<GamePreCtrl>(EndDealOp_ScenePreCtrl);
 //		LoadingController.GetInstance ().GotoOneSence (SenceType.mainSence);

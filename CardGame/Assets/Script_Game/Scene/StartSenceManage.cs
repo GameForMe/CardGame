@@ -36,7 +36,9 @@ public class StartSenceManage : MonoBehaviour
 
         GTUIManager.Instance().SetInitRootUI(staticCanvas, effCanvas);
         yield return StartCoroutine(LoadLoadingUI());
-        yield return StartCoroutine(LoadStartSenceUI());
+        yield return StartCoroutine(GTSenceManage.Instance().AddStartSence());
+        
+//        yield return StartCoroutine(LoadStartSenceUI());
     }
 
     protected IEnumerator Initialize()
@@ -104,24 +106,24 @@ public class StartSenceManage : MonoBehaviour
         yield return StartCoroutine(request);
     }
 
-    protected IEnumerator LoadStartSenceUI()
-    {
-        AssetBundleLoadAssetOperation request = AssetBundleManager.LoadAssetAsync("uistartgame.unity3d", "UIStartGame", typeof(GameObject));
-        if (request == null)
-            yield break;
-        yield return StartCoroutine(request);
-        GameObject prefab = request.GetAsset<GameObject>();
-        if (prefab != null)
-        {
-            GameObject startUI = GameObject.Instantiate(prefab);
-            startUI.transform.parent = GTUIManager.Instance().StaticCanvas.transform;
-            startUI.transform.localPosition = prefab.transform.localPosition;
-            startUI.transform.localScale = prefab.transform.localScale;
-
-            startUI.AddComponent<LaunchUI>();
-        }
-        AssetBundleManager.UnloadAssetBundle("uistartgame.unity3d");
-    }
+//    protected IEnumerator LoadStartSenceUI()
+//    {
+//        AssetBundleLoadAssetOperation request = AssetBundleManager.LoadAssetAsync("uistartgame.unity3d", "UIStartGame", typeof(GameObject));
+//        if (request == null)
+//            yield break;
+//        yield return StartCoroutine(request);
+//        GameObject prefab = request.GetAsset<GameObject>();
+//        if (prefab != null)
+//        {
+//            GameObject startUI = GameObject.Instantiate(prefab);
+//            startUI.transform.parent = GTUIManager.Instance().StaticCanvas.transform;
+//            startUI.transform.localPosition = prefab.transform.localPosition;
+//            startUI.transform.localScale = prefab.transform.localScale;
+//
+//            startUI.AddComponent<LaunchUI>();
+//        }
+//        AssetBundleManager.UnloadAssetBundle("uistartgame.unity3d");
+//    }
    
 
 }

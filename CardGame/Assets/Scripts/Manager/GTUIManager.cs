@@ -41,6 +41,8 @@ public class GTUIManager : MonoBehaviour
 	{
 		StaticCanvas = staticObj.transform;
 		EffCanvas = effObj.transform;
+		DontDestroyOnLoad(StaticCanvas );
+		DontDestroyOnLoad(EffCanvas );
 	}
 	
 	public delegate void EndAddUiToCanvas(GameObject obj);

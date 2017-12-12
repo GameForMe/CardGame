@@ -100,6 +100,7 @@ public class GTSenceManage : MonoBehaviour
         ; //匹配死亡时, 需关闭的 事项; // 玩家 死亡或 成功逃脱时 , 关闭的相关 ui;
 
     BaseSence curSence;
+    BaseSence loadingSence;
     UISenceType curSenceType;
 
 //	BaseUI RootParentUI;
@@ -116,29 +117,6 @@ public class GTSenceManage : MonoBehaviour
         get { return rootTrans != null ? rootTrans.transform : null; }
     }
 
-//	/// <summary>
-//	/// Inits the user interface base.
-//	/// 讲根目录显示在舞台上;
-//	/// </summary>
-//	public void InitUIBase ()
-//	{
-//		if (rootTrans == null) {
-//			GameObject OriginalObj = CatchPoolManage.Instance ().GetOnePrefabsObj ("UI/GUIUI");
-//
-//			if (OriginalObj != null) {
-//				GameObject temObj = GameObject.Instantiate (OriginalObj) as GameObject;
-//				temObj.name = "RootUI";
-//				DontDestroyOnLoad (temObj);
-//
-//				if (temObj.GetComponent<BaseUI> () != null) {
-//					RootParentUI = temObj.GetComponent<BaseUI> ();
-//				} else {
-//					RootParentUI = temObj.AddComponent<BaseUI> ();
-//				}
-//				rootTrans = RootParentUI.transform.Find ("Camera");
-//			}
-//		}
-//	}
     public void SenceWillChangeed()
     {
         CloseAllBorderUI();
@@ -188,27 +166,25 @@ public class GTSenceManage : MonoBehaviour
         }
     }
 
+    #region 启动界面
+
+    public IEnumerator AddStartSence()
+    {
+        yield return StartCoroutine(GTUIManager.Instance().AddUiToCanvas("uistartgame.unity3d","UIStartGame",true, (GameObject obj) =>
+        {
+            LaunchUI sence = obj.AddComponent<LaunchUI>();
+            curSence = sence;
+            if (loadingSence != null)
+            {
+                loadingSence.CloseUI();
+            }
+        }));
+    }
+
+    #endregion
+    
     #region 登录场景控制;
 
-    protected IEnumerator AddLoginUIToSence()
-    {
-        AssetBundleLoadAssetOperation request =
-            AssetBundleManager.LoadAssetAsync("uilogin.unity3d", "UILogin", typeof(GameObject));
-        if (request == null)
-            yield break;
-        yield return StartCoroutine(request);
-        GameObject prefab = request.GetAsset<GameObject>();
-        if (prefab != null)
-        {
-            GameObject startUI = GameObject.Instantiate(prefab);
-            startUI.transform.parent = GTUIManager.Instance().StaticCanvas.transform;
-            startUI.transform.localPosition = prefab.transform.localPosition;
-            startUI.transform.localScale = prefab.transform.localScale;
-
-            startUI.AddComponent<LoginUI>();
-        }
-        AssetBundleManager.UnloadAssetBundle("uilogin.unity3d");
-    }
 
 
     /// <summary>
@@ -219,7 +195,22 @@ public class GTSenceManage : MonoBehaviour
     {
         curSenceType = UISenceType.logonUISence;
 
-        StartCoroutine(AddLoginUIToSence());
+        
+        StartCoroutine(GTUIManager.Instance().AddUiToCanvas("uilogin.unity3d","UILogin",true, (GameObject obj) =>
+        {
+            if (curSence != null)
+            {
+                curSence.CloseUI();
+            }
+            LoginUI sence = obj.AddComponent<LoginUI>();
+            curSence = sence;
+            if (loadingSence != null)
+            {
+                loadingSence.CloseUI();
+            }
+        }));
+        
+//        StartCoroutine(AddLoginUIToSence());
     }
 
     #endregion
@@ -234,13 +225,9 @@ public class GTSenceManage : MonoBehaviour
     /// 
     /// </summary>
     public void GotoMainUISence()
-    {
-        if (curSence != null)
-        {
-            curSence.CloseUI();
-        }
+    {        
         curSenceType = UISenceType.loadingUISence;
-        AddLoadingUIToSence<PreCtrlMainScene>(StartOpenMainUISence, null);
+        AddLoadingUIToSence<PreCtrlMainScene>(true,StartOpenMainUISence, null);
     }
 
     /// <summary>
@@ -249,15 +236,21 @@ public class GTSenceManage : MonoBehaviour
     /// </summary>
     void StartOpenMainUISence()
     {
-        if (curSence != null)
-        {
-            curSence.CloseUI();
-        }
         curSenceType = UISenceType.mainUISence;
 
         StartCoroutine(GTUIManager.Instance().AddUiToCanvas("uimain.unity3d","uimain",true, (GameObject obj) =>
         {
-            MainUI panel = obj.AddComponent<MainUI>();
+            MainUI sence = obj.AddComponent<MainUI>();
+
+            if (curSence != null)
+            {
+                curSence.CloseUI();
+            }
+            if (loadingSence != null)
+            {
+                loadingSence.CloseUI();
+            }
+            curSence = sence;
         }));
 //        StartCoroutine(AddmainUIToSence());
 
@@ -391,49 +384,67 @@ public class GTSenceManage : MonoBehaviour
 
     #region 加载的laodingUI
 
-    IEnumerator AddLoadingUI<T>(PreCtrlBase.EndLoading endCall, PreCtrlBase.EndAddLoadingUI addCall,
+
+    /// <summary>
+    /// 添加场景内大loaidng 执行逻辑;
+    /// 
+    /// </summary>
+    /// <param name="isRemoveCurSence">loading 添加好之后是否删掉当前场景</param>
+    /// <param name="endCall"></param>
+    /// <param name="addCall"></param>
+    /// <param name="args"></param>
+    /// <typeparam name="T"></typeparam>
+    public void AddLoadingUIToSence<T>(bool isRemoveCurSence, PreCtrlBase.EndLoading endCall, PreCtrlBase.EndAddLoadingUI addCall,
         params object[] args) where T : PreCtrlBase
     {
-        AssetBundleLoadAssetOperation request =
-            AssetBundleManager.LoadAssetAsync("uiloading.unity3d", "uiloading", typeof(GameObject));
-        if (request == null)
-            yield break;
-        yield return StartCoroutine(request);
-        GameObject prefab = request.GetAsset<GameObject>();
-        if (prefab != null)
-        {
-            GameObject startUI = GameObject.Instantiate(prefab);
-            startUI.transform.parent = GTUIManager.Instance().StaticCanvas.transform;
-            startUI.transform.localPosition = prefab.transform.localPosition;
-            startUI.transform.localScale = prefab.transform.localScale;
-
-            LoadingUI diaSrc = startUI.AddComponent<LoadingUI>();
-
-            T precCtrl = diaSrc.gameObject.AddComponent<T>();
-            precCtrl.loadingUICS = diaSrc;
+//        StartCoroutine(AddLoadingUI<T>(endCall, addCall, args));
+        if (loadingSence != null)
+        {  
+            if (curSence != null && isRemoveCurSence)
+            {
+                curSence.CloseUI();
+            }
+            T precCtrl = loadingSence.gameObject .AddComponent<T>();
+            precCtrl.loadingUICS = (LoadingUI)loadingSence;
             precCtrl.EndLoadCall = endCall;
             precCtrl.StarLoadData(args);
-
             if (addCall != null)
             {
                 addCall(precCtrl);
             }
         }
-        AssetBundleManager.UnloadAssetBundle("uiloading.unity3d");
-    }
-
-
-    /// <summary>
-    /// Adds the loading user interface to sence.
-    /// 添加场景内大loaidng 执行逻辑;
-    /// </summary>
-    /// <typeparam name="T">The 1st type parameter.</typeparam>
-    public void AddLoadingUIToSence<T>(PreCtrlBase.EndLoading endCall, PreCtrlBase.EndAddLoadingUI addCall,
-        params object[] args) where T : PreCtrlBase
-    {
-        StartCoroutine(AddLoadingUI<T>(endCall, addCall, args));
+        else
+        {
+            StartCoroutine(GTUIManager.Instance().AddUiToCanvas("uiloading.unity3d","uiloading",true, (GameObject obj) =>
+            {
+                if (curSence != null && isRemoveCurSence)
+                {
+                    curSence.CloseUI();
+                }
+                LoadingUI diaSrc = obj.AddComponent<LoadingUI>();
+            
+                T precCtrl = obj.AddComponent<T>();
+                precCtrl.loadingUICS = diaSrc;
+                precCtrl.EndLoadCall = endCall;
+                precCtrl.StarLoadData(args);
+                loadingSence = diaSrc;
+                if (addCall != null)
+                {
+                    addCall(precCtrl);
+                }
+            }));
+        }
 //	
     }
+
+    public void CloseLoadingUI()
+    {
+        if (loadingSence != null)
+        {
+            loadingSence .CloseUI();   
+        }
+    }
+
 
     #endregion
 }
