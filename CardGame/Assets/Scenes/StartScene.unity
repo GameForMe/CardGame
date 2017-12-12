@@ -511,16 +511,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 224566655344427044, guid: 2027799a5932a467685341b55369f878,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224566655344427044, guid: 2027799a5932a467685341b55369f878,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 224649893256082020, guid: 2027799a5932a467685341b55369f878,
         type: 2}
       propertyPath: m_AnchorMin.y
@@ -532,6 +522,16 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224649893256082020, guid: 2027799a5932a467685341b55369f878,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224566655344427044, guid: 2027799a5932a467685341b55369f878,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224566655344427044, guid: 2027799a5932a467685341b55369f878,
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 1

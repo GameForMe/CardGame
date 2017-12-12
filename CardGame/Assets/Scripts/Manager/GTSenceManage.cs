@@ -96,8 +96,6 @@ public class GTSenceManage : MonoBehaviour
 
     protected List<BaseBorderUI> borderUIList = new List<BaseBorderUI>();
 
-    protected List<BaseBorderUI> borderUIList_ForDie = new List<BaseBorderUI>()
-        ; //匹配死亡时, 需关闭的 事项; // 玩家 死亡或 成功逃脱时 , 关闭的相关 ui;
 
     BaseSence curSence;
     BaseSence loadingSence;
@@ -151,26 +149,30 @@ public class GTSenceManage : MonoBehaviour
     }
 
     /// <summary>
-    /// Closes all border U i for die.
-    /// 玩家 死亡或 成功逃脱时 , 关闭的相关 ui;
+    /// 关闭当前场景;
     /// </summary>
-    void CloseAllBorderUI_ForDie()
+    void CloseCurSence()
     {
-        for (int i = 0; i < borderUIList_ForDie.Count; i++)
+        if (curSence != null)
         {
-            BaseBorderUI win = borderUIList_ForDie[i];
-            if (win != null)
-            {
-                GameObject.Destroy(win.gameObject);
-            }
+            curSence.CloseUI();
+            GTUIManager.Instance().ClearCurSenceAssetBundle();
         }
     }
-
+    
+    public void CloseLoadingUI()
+    {
+        if (loadingSence != null)
+        {
+            loadingSence .CloseUI();   
+        }
+    }
+    
     #region 启动界面
 
     public IEnumerator AddStartSence()
     {
-        yield return StartCoroutine(GTUIManager.Instance().AddUiToCanvas("uistartgame.unity3d","UIStartGame",true, (GameObject obj) =>
+        yield return StartCoroutine(GTUIManager.Instance().AddUiToCanvas("uistartgame.unity3d","UIStartGame",true,false, (GameObject obj) =>
         {
             LaunchUI sence = obj.AddComponent<LaunchUI>();
             curSence = sence;
@@ -196,12 +198,9 @@ public class GTSenceManage : MonoBehaviour
         curSenceType = UISenceType.logonUISence;
 
         
-        StartCoroutine(GTUIManager.Instance().AddUiToCanvas("uilogin.unity3d","UILogin",true, (GameObject obj) =>
+        StartCoroutine(GTUIManager.Instance().AddUiToCanvas("uilogin.unity3d","UILogin",true,false, (GameObject obj) =>
         {
-            if (curSence != null)
-            {
-                curSence.CloseUI();
-            }
+            CloseCurSence();
             LoginUI sence = obj.AddComponent<LoginUI>();
             curSence = sence;
             if (loadingSence != null)
@@ -238,14 +237,11 @@ public class GTSenceManage : MonoBehaviour
     {
         curSenceType = UISenceType.mainUISence;
 
-        StartCoroutine(GTUIManager.Instance().AddUiToCanvas("uimain.unity3d","uimain",true, (GameObject obj) =>
+        StartCoroutine(GTUIManager.Instance().AddUiToCanvas("uimain.unity3d","uimain",true,true, (GameObject obj) =>
         {
             MainUI sence = obj.AddComponent<MainUI>();
 
-            if (curSence != null)
-            {
-                curSence.CloseUI();
-            }
+            CloseCurSence();
             if (loadingSence != null)
             {
                 loadingSence.CloseUI();
@@ -275,10 +271,7 @@ public class GTSenceManage : MonoBehaviour
     public void GotoBattleUISence(EndAddUI endCallUI)
     {
         RootTrans.IsOpenListener = false;
-        if (curSence != null)
-        {
-            curSence.CloseUI();
-        }
+        CloseCurSence();
         curSenceType = UISenceType.warUISence;
 
         AddBattleUIBack();
@@ -400,9 +393,9 @@ public class GTSenceManage : MonoBehaviour
 //        StartCoroutine(AddLoadingUI<T>(endCall, addCall, args));
         if (loadingSence != null)
         {  
-            if (curSence != null && isRemoveCurSence)
+            if (isRemoveCurSence)
             {
-                curSence.CloseUI();
+                CloseCurSence();
             }
             T precCtrl = loadingSence.gameObject .AddComponent<T>();
             precCtrl.loadingUICS = (LoadingUI)loadingSence;
@@ -415,11 +408,11 @@ public class GTSenceManage : MonoBehaviour
         }
         else
         {
-            StartCoroutine(GTUIManager.Instance().AddUiToCanvas("uiloading.unity3d","uiloading",true, (GameObject obj) =>
+            StartCoroutine(GTUIManager.Instance().AddUiToCanvas("uiloading.unity3d","uiloading",true, false,(GameObject obj) =>
             {
-                if (curSence != null && isRemoveCurSence)
+                if ( isRemoveCurSence)
                 {
-                    curSence.CloseUI();
+                    CloseCurSence();
                 }
                 LoadingUI diaSrc = obj.AddComponent<LoadingUI>();
             
@@ -437,13 +430,6 @@ public class GTSenceManage : MonoBehaviour
 //	
     }
 
-    public void CloseLoadingUI()
-    {
-        if (loadingSence != null)
-        {
-            loadingSence .CloseUI();   
-        }
-    }
 
 
     #endregion

@@ -23,34 +23,14 @@ public class GTWindowManage :MonoBehaviour
     {
         if (null == _instance)
         {
-            _instance = new GTWindowManage();
             Transform MangerBase = GTUIManager.Instance().GetManagerBaseRoot();
             m_gameObject = new GameObject("GTWindowManage");
             m_gameObject.transform.parent = MangerBase;
+            _instance = m_gameObject.AddComponent<GTWindowManage>();
         }
         return _instance;
     }
 
-    MainRootUI rootTrans;
-
-    public MainRootUI RootTrans
-    {
-        get
-        {
-            return rootTrans;
-        }
-        set
-        {
-            rootTrans = value;
-        }
-    }
-    Transform RootTransform
-    {
-        get
-        {
-            return rootTrans != null ? rootTrans.transform : null;
-        }
-    }
 
 
     /// <summary>
@@ -73,7 +53,7 @@ public class GTWindowManage :MonoBehaviour
     /// The window list.
     /// 弹出的面板;
     /// </summary>
-    protected List<BaseWindow> windowList = new List<BaseWindow>();
+    protected Dictionary<string, BaseWindow> windowList = new Dictionary<string,BaseWindow>();
 
     /// <summary>
     /// The object list.
@@ -93,7 +73,10 @@ public class GTWindowManage :MonoBehaviour
 
     public void RemoveOneUI(BaseWindow ui)
     {
-        windowList.Remove(ui);
+        if(windowList.ContainsKey(ui.name))
+        {
+            windowList.Remove(ui.name);
+        }
     }
 
     public void SenceWillChangeed()
@@ -107,12 +90,11 @@ public class GTWindowManage :MonoBehaviour
 
     void CloseAllWindows()
     {
-        for (int i = 0; i < windowList.Count; i++)
+        foreach (var keyPar in windowList)
         {
-            BaseWindow win = windowList[i];
-            if (win != null)
+            if ( keyPar.Value != null)
             {
-                GameObject.Destroy(win.gameObject);
+                GameObject.Destroy(keyPar.Value.gameObject);
             }
         }
     }
@@ -140,14 +122,14 @@ public class GTWindowManage :MonoBehaviour
     public void OpenDialog_Tip(string tipDes, TipType curTipType, Dialog_Tip.SureContinueCall callBack)
     {
         GameObject OriginalObj = CatchPoolManage.Instance().GetOnePrefabsObj("UI/Tip/Prefabs/Dialog_Tip");
-        if (OriginalObj != null)
-        {
-            Dialog_Tip diaSrc = InstantiateObjFun.AddOneObjToParent<Dialog_Tip>(OriginalObj, RootTransform);
-            diaSrc.curTipType = curTipType;
-            diaSrc.sureContinueCall = callBack;
-
-            diaSrc.TipDes = tipDes;
-        }
+//        if (OriginalObj != null)
+//        {
+//            Dialog_Tip diaSrc = InstantiateObjFun.AddOneObjToParent<Dialog_Tip>(OriginalObj, RootTransform);
+//            diaSrc.curTipType = curTipType;
+//            diaSrc.sureContinueCall = callBack;
+//
+//            diaSrc.TipDes = tipDes;
+//        }
     }
 
 
@@ -157,10 +139,34 @@ public class GTWindowManage :MonoBehaviour
 
     public void OpenPanel_CardList()
     {
-        GTUIManager.Instance().AddUiToCanvas("panel_cardlist.unity3d","Panel_CardList",true, (GameObject obj) =>
+        string panelName = "Panel_CardList";
+        if (windowList.ContainsKey(panelName))
         {
-            Panel_CardList panel = obj.AddComponent<Panel_CardList>();
-        });
+            if (windowList[panelName])
+            {
+                Debuger.LogError("打开已有界面 Panel_CardList  需要更新");
+            }
+            else
+            {
+                Debuger.LogError("正在打开。请稍后");
+            }
+      
+        }
+        else
+        {
+            windowList.Add(panelName,null);
+            StartCoroutine(GTUIManager.Instance().AddUiToCanvas("panel_cardlist.unity3d",panelName,true,true, (GameObject obj) =>
+            {
+                Panel_CardList panel = obj.AddComponent<Panel_CardList>();
+                panel.name = panelName;
+                if (windowList[panelName])
+                {
+                    windowList[panelName].CloseUI();
+                }
+                windowList[panelName] = panel;
+            }));
+        }
+
 //        StartCoroutine(AddmainUIToSence());
     }
 

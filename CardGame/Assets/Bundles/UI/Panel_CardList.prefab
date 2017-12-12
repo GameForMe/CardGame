@@ -108,6 +108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224557386996270480}
   - component: {fileID: 225200541806500588}
+  - component: {fileID: 114158367138011640}
   m_Layer: 5
   m_Name: Panel_CardList
   m_TagString: Untagged
@@ -322,6 +323,20 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Scrollbar+ScrollEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114158367138011640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1418698258599140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 844453e3678b14df5ae24e59a2b9729e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+  - key: Btn_Close
+    gameObject: {fileID: 1181721432078058}
 --- !u!114 &114181876429286456
 MonoBehaviour:
   m_ObjectHideFlags: 1

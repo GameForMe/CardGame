@@ -7,7 +7,8 @@ public class MainUI : BaseSence
 {
 	private ReferenceCollector rc;
 	// Use this for initialization
-	void Start () {
+	private void Awake()
+	{
 		rc = gameObject.GetComponent<ReferenceCollector>();
 		if (rc != null)
 		{
@@ -16,6 +17,9 @@ public class MainUI : BaseSence
 		
 			GameObject Btn_MyCard = rc.Get<GameObject>("Btn_MyCard");
 			Btn_MyCard.GetComponent<Button>().onClick.AddListener(BtnClick_OpenCardList);
+			
+//			GameObject Btn_Close = rc.Get<GameObject>("Btn_Close");
+//			Btn_MyCard.GetComponent<Button>().onClick.AddListener(BtnClick_OpenCardList);
 		}
 		else
 		{
@@ -32,7 +36,7 @@ public class MainUI : BaseSence
 
 	void BtnClick_OpenCardList()
 	{
-		
+		GTWindowManage.Instance().OpenPanel_CardList();
 	}
 	
 
