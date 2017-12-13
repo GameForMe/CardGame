@@ -43,31 +43,32 @@ public class OneCardUI : MonoBehaviour
     {
         if (Lab_Name != null && curData != null)
         {
-//            StartCoroutine(AddUiToCanvas((Texture texture) =>
-//            {
-//                imgBK.texture = texture;
-//            }));
-            StartCoroutine(AddUiToCanvas(imgBK));
+            StartCoroutine(GTResouseManage.Instance().GetResFromAb("cardimg.unity3d", curData.Race+"_"+curData.ImgID,
+                (Texture texture) =>
+                {
+                    imgBK.texture = texture;
+                }));
+//            StartCoroutine(AddUiToCanvas(imgBK));
 
             Lab_Name.text = curData.CardName;
         }
     }
-    public delegate void EndGetSp(Texture sp);
-//    IEnumerator AddUiToCanvas(EndGetSp endCall)
-    IEnumerator AddUiToCanvas(RawImage img)
-    {
-        AssetBundleLoadAssetOperation request =
-            AssetBundleManager.LoadAssetAsync("cardimg.unity3d", curData.Race+"_"+curData.ImgID, typeof(Texture));
-        if (request == null)
-            yield break;
-        yield return StartCoroutine(request);
-        Texture sp = request.GetAsset<Texture>();
-//        img.sprite = sp;
-
-        img.texture = sp;
-//        if (endCall != null)
-//        {
-//            endCall(sp);
-//        }
-    }
+//    public delegate void EndGetSp(Texture sp);
+////    IEnumerator AddUiToCanvas(EndGetSp endCall)
+//    IEnumerator AddUiToCanvas(RawImage img)
+//    {
+//        AssetBundleLoadAssetOperation request =
+//            AssetBundleManager.LoadAssetAsync("cardimg.unity3d", curData.Race+"_"+curData.ImgID, typeof(Texture));
+//        if (request == null)
+//            yield break;
+//        yield return StartCoroutine(request);
+//        Texture sp = request.GetAsset<Texture>();
+////        img.sprite = sp;
+//
+//        img.texture = sp;
+////        if (endCall != null)
+////        {
+////            endCall(sp);
+////        }
+//    }
 }

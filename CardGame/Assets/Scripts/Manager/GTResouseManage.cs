@@ -5,14 +5,26 @@ using AssetBundles;
 /// <summary>
 /// GameTool resouse manage.
 /// </summary>
-public class GTResouseManage  {
+public class GTResouseManage  : MonoBehaviour {
+	protected static GameObject m_gameObject;
+
 	private static GTResouseManage _instance;
+
 	public static GTResouseManage Instance()
 	{
-		if (null == _instance)
-			_instance = new GTResouseManage();
+		if (_instance == null)
+		{
+			Transform MangerBase = GTUIManager.Instance().GetManagerBaseRoot();
+			m_gameObject = new GameObject("GTResouseManage");
+			m_gameObject.transform.parent = MangerBase;
+			_instance = m_gameObject.AddComponent<GTResouseManage>();
+//			DontDestroyOnLoad (m_gameObject);
+		}
 		return _instance;
-	} 
+	}
+	
+	
+	
 	Dictionary<string,Sprite> spriteCatch = new Dictionary<string, Sprite> ();
 	string firDir = "";
 	/// <summary>
@@ -200,4 +212,22 @@ public class GTResouseManage  {
 		}
 	}
 	#endregion
+	
+	public delegate void EndGetSp<T>(T sp) where T : UnityEngine.Object;
+	
+//    IEnumerator AddUiToCanvas(EndGetSp endCall)
+	public IEnumerator GetResFromAb<T>(string assetName, string prefabName,EndGetSp<T> endCall) where T : UnityEngine.Object
+	{
+		AssetBundleLoadAssetOperation request =
+			AssetBundleManager.LoadAssetAsync(assetName, prefabName, typeof(T));
+		if (request == null)
+			yield break;
+//		yield return StartCoroutine(request);
+		T sp = request.GetAsset<T>();
+		AssetBundleManager.UnloadAssetBundle(assetName);
+        if (endCall != null)
+        {
+            endCall(sp);
+        }
+	}
 }
