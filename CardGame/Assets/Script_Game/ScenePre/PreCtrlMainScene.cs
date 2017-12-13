@@ -17,12 +17,7 @@ public class PreCtrlMainScene :PreCtrlBase
 	public override void StarLoadData(params object[] args)
 	{
 		StartCoroutine(LoadMainUI());
-		
-		if (EndLoadCall != null) {
-			EndLoadCall ();
-		} else {
 
-		}
 	}
 	
 	protected IEnumerator LoadMainUI()
@@ -35,6 +30,12 @@ public class PreCtrlMainScene :PreCtrlBase
 //		if (request_uil == null)
 //			yield break;
 //		yield return StartCoroutine(request_uil);
+				
+		if (EndLoadCall != null) {
+			EndLoadCall ();
+		} else {
+
+		}
 	}
 
 }

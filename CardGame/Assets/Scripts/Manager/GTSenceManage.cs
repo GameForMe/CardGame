@@ -217,6 +217,11 @@ public class GTSenceManage : MonoBehaviour
 
     #region 进入主界面;
 
+    public void GotoMainUiSenceFromLogon()
+    {
+        curSenceType = UISenceType.loadingUISence;
+        AddLoadingUIToSence<GamePreCtrl>(true,GotoMainUISence, null);
+    }
     /// <summary>
     /// Gotos the main user interface sence.
     /// 开始进入主ui场景;

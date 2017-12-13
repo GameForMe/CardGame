@@ -43,7 +43,7 @@ public class GameEnterModel  : BaseModel
 	/// </summary>
 	public void LogonGame()
 	{
-		GTSenceManage.Instance().GotoMainUISence();
+		GTSenceManage.Instance().GotoMainUiSenceFromLogon();
 	}
 	
 }

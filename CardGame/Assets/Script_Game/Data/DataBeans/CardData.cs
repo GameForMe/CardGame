@@ -72,6 +72,19 @@ public class CardData : IDataBean {
         }
     }
 
+    private int imgID;
+    /// <summary>
+    /// 图片id
+    /// </summary>
+    public int ImgID {
+        get {
+             return imgID;
+        }
+        set {
+             imgID = value;
+        }
+    }
+
     private int costRes;
     /// <summary>
     /// 消耗金钱

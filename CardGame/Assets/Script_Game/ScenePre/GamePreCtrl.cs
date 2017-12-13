@@ -1,4 +1,9 @@
 ﻿using  System;
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using  AssetBundles;
+
 
 /// <summary>
 /// 进去主界面的前置逻辑;
@@ -14,9 +19,24 @@ public class GamePreCtrl : PreCtrlBase
     /// </summary>
     public override void StarLoadData(params object[] args)
     {
-        //不注视掉 有个 还没结束就执行回掉 的bug
+        //
+        StartCoroutine(LoadGameBaseAB());
     }
 
+    protected IEnumerator LoadGameBaseAB()
+    {
+        AssetBundleLoadAssetOperation request = AssetBundleManager.LoadAssetAsync("uimain.unity3d", "uimain", typeof(GameObject));
+        if (request == null)
+            yield break;
+        yield return StartCoroutine(request);
+        
+        if (EndLoadCall != null) {
+            EndLoadCall ();
+        } else {
+
+        }
+    }
+    
     /// <summary>
     /// Ends the load scene object.
     /// 加载完后场景 预设;
